@@ -1,0 +1,17 @@
+{
+  "name": "tora-pharmacy-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Scrapes the daily Cyprus overnight-pharmacy roster from ygeia-news.com into pharmacies.json for the Tóra app.",
+  "scripts": {
+    "scrape": "node scrape-pharmacies.mjs",
+    "test": "node test-parse.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
