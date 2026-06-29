@@ -1,0 +1,718 @@
+{
+  "note": "SEED data — replace with live Fuel Price Observatory feed once access is granted",
+  "updatedAt": "2026-06-26T17:43:08.746Z",
+  "fuel": {
+    "Limassol": [
+      {
+        "brand": "Petrolina",
+        "area": "Zakaki",
+        "lat": 34.6794,
+        "lng": 33.0086,
+        "u95": 1.446,
+        "u98": 1.517,
+        "diesel": 1.491
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Ipsonas",
+        "lat": 34.6991,
+        "lng": 33.0015,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Polemidia",
+        "lat": 34.6922,
+        "lng": 33.0279,
+        "u95": 1.455,
+        "u98": 1.526,
+        "diesel": 1.5
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Kato Polemidia",
+        "lat": 34.6635,
+        "lng": 33.0407,
+        "u95": 1.46,
+        "u98": 1.531,
+        "diesel": 1.505
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Agios Athanasios",
+        "lat": 34.6622,
+        "lng": 33.034,
+        "u95": 1.464,
+        "u98": 1.535,
+        "diesel": 1.509
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Mesa Geitonia",
+        "lat": 34.6642,
+        "lng": 33.0032,
+        "u95": 1.468,
+        "u98": 1.539,
+        "diesel": 1.513
+      },
+      {
+        "brand": "EKO",
+        "area": "Germasogeia",
+        "lat": 34.6855,
+        "lng": 33.0694,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "EKO",
+        "area": "Potamos Germasogeias",
+        "lat": 34.6674,
+        "lng": 33.0151,
+        "u95": 1.454,
+        "u98": 1.525,
+        "diesel": 1.499
+      },
+      {
+        "brand": "EKO",
+        "area": "Agia Fyla",
+        "lat": 34.6976,
+        "lng": 33.0803,
+        "u95": 1.459,
+        "u98": 1.53,
+        "diesel": 1.504
+      },
+      {
+        "brand": "EKO",
+        "area": "Linopetra",
+        "lat": 34.6946,
+        "lng": 33.0307,
+        "u95": 1.464,
+        "u98": 1.535,
+        "diesel": 1.509
+      },
+      {
+        "brand": "EKO",
+        "area": "Columbia",
+        "lat": 34.7186,
+        "lng": 32.9992,
+        "u95": 1.468,
+        "u98": 1.539,
+        "diesel": 1.513
+      },
+      {
+        "brand": "EKO",
+        "area": "Tsiflikoudia",
+        "lat": 34.7115,
+        "lng": 33.0211,
+        "u95": 1.472,
+        "u98": 1.543,
+        "diesel": 1.517
+      },
+      {
+        "brand": "Esso",
+        "area": "Omonia",
+        "lat": 34.6687,
+        "lng": 33.0056,
+        "u95": 1.453,
+        "u98": 1.524,
+        "diesel": 1.498
+      },
+      {
+        "brand": "Esso",
+        "area": "Kapsalos",
+        "lat": 34.6785,
+        "lng": 33.0685,
+        "u95": 1.457,
+        "u98": 1.528,
+        "diesel": 1.502
+      },
+      {
+        "brand": "Esso",
+        "area": "Ekali",
+        "lat": 34.6708,
+        "lng": 33.0473,
+        "u95": 1.462,
+        "u98": 1.533,
+        "diesel": 1.507
+      },
+      {
+        "brand": "Esso",
+        "area": "Agios Nikolaos",
+        "lat": 34.6983,
+        "lng": 33.0285,
+        "u95": 1.466,
+        "u98": 1.537,
+        "diesel": 1.511
+      },
+      {
+        "brand": "Esso",
+        "area": "Apostolos Andreas",
+        "lat": 34.6929,
+        "lng": 33.0007,
+        "u95": 1.471,
+        "u98": 1.542,
+        "diesel": 1.516
+      },
+      {
+        "brand": "Esso",
+        "area": "Petrou kai Pavlou",
+        "lat": 34.6636,
+        "lng": 33.0135,
+        "u95": 1.475,
+        "u98": 1.546,
+        "diesel": 1.52
+      },
+      {
+        "brand": "Esso",
+        "area": "Katholiki",
+        "lat": 34.7008,
+        "lng": 33.0335,
+        "u95": 1.48,
+        "u98": 1.551,
+        "diesel": 1.525
+      },
+      {
+        "brand": "ENI",
+        "area": "Panthea",
+        "lat": 34.6788,
+        "lng": 33.0477,
+        "u95": 1.46,
+        "u98": 1.531,
+        "diesel": 1.505
+      },
+      {
+        "brand": "ENI",
+        "area": "Town centre",
+        "lat": 34.6872,
+        "lng": 33.022,
+        "u95": 1.464,
+        "u98": 1.535,
+        "diesel": 1.509
+      },
+      {
+        "brand": "ENI",
+        "area": "Fasouri",
+        "lat": 34.7077,
+        "lng": 33.0579,
+        "u95": 1.469,
+        "u98": 1.54,
+        "diesel": 1.514
+      },
+      {
+        "brand": "ENI",
+        "area": "Trachoni",
+        "lat": 34.6746,
+        "lng": 33.0467,
+        "u95": 1.474,
+        "u98": 1.545,
+        "diesel": 1.519
+      },
+      {
+        "brand": "Lukoil",
+        "area": "Ypsonas East",
+        "lat": 34.6915,
+        "lng": 33.0738,
+        "u95": 1.462,
+        "u98": 1.533,
+        "diesel": 1.507
+      },
+      {
+        "brand": "Lukoil",
+        "area": "Mouttagiaka",
+        "lat": 34.7038,
+        "lng": 33.0209,
+        "u95": 1.466,
+        "u98": 1.537,
+        "diesel": 1.511
+      },
+      {
+        "brand": "Lukoil",
+        "area": "Zakaki",
+        "lat": 34.7188,
+        "lng": 33.0056,
+        "u95": 1.471,
+        "u98": 1.542,
+        "diesel": 1.516
+      },
+      {
+        "brand": "Lukoil",
+        "area": "Ipsonas",
+        "lat": 34.6851,
+        "lng": 33.0631,
+        "u95": 1.476,
+        "u98": 1.547,
+        "diesel": 1.521
+      },
+      {
+        "brand": "Staroil",
+        "area": "Polemidia",
+        "lat": 34.6691,
+        "lng": 33.039,
+        "u95": 1.456,
+        "u98": 1.527,
+        "diesel": 1.501
+      },
+      {
+        "brand": "Staroil",
+        "area": "Kato Polemidia",
+        "lat": 34.6624,
+        "lng": 33.0551,
+        "u95": 1.46,
+        "u98": 1.531,
+        "diesel": 1.505
+      },
+      {
+        "brand": "Staroil",
+        "area": "Agios Athanasios",
+        "lat": 34.7059,
+        "lng": 33.0466,
+        "u95": 1.465,
+        "u98": 1.536,
+        "diesel": 1.51
+      },
+      {
+        "brand": "Staroil",
+        "area": "Mesa Geitonia",
+        "lat": 34.7125,
+        "lng": 33.0232,
+        "u95": 1.47,
+        "u98": 1.541,
+        "diesel": 1.515
+      }
+    ],
+    "Nicosia": [
+      {
+        "brand": "Petrolina",
+        "area": "Strovolos",
+        "lat": 35.1817,
+        "lng": 33.3685,
+        "u95": 1.446,
+        "u98": 1.517,
+        "diesel": 1.491
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Engomi",
+        "lat": 35.1748,
+        "lng": 33.3561,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Aglandjia",
+        "lat": 35.1904,
+        "lng": 33.4,
+        "u95": 1.455,
+        "u98": 1.526,
+        "diesel": 1.5
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Latsia",
+        "lat": 35.1684,
+        "lng": 33.3748,
+        "u95": 1.46,
+        "u98": 1.531,
+        "diesel": 1.505
+      },
+      {
+        "brand": "EKO",
+        "area": "Lakatamia",
+        "lat": 35.1436,
+        "lng": 33.3781,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "EKO",
+        "area": "Dasoupolis",
+        "lat": 35.1788,
+        "lng": 33.4044,
+        "u95": 1.454,
+        "u98": 1.525,
+        "diesel": 1.499
+      },
+      {
+        "brand": "EKO",
+        "area": "Acropolis",
+        "lat": 35.1893,
+        "lng": 33.3406,
+        "u95": 1.459,
+        "u98": 1.53,
+        "diesel": 1.504
+      },
+      {
+        "brand": "EKO",
+        "area": "Pallouriotissa",
+        "lat": 35.1631,
+        "lng": 33.3752,
+        "u95": 1.464,
+        "u98": 1.535,
+        "diesel": 1.509
+      },
+      {
+        "brand": "Esso",
+        "area": "Kaimakli",
+        "lat": 35.1414,
+        "lng": 33.3566,
+        "u95": 1.453,
+        "u98": 1.524,
+        "diesel": 1.498
+      },
+      {
+        "brand": "Esso",
+        "area": "Dali",
+        "lat": 35.1501,
+        "lng": 33.3255,
+        "u95": 1.457,
+        "u98": 1.528,
+        "diesel": 1.502
+      },
+      {
+        "brand": "Esso",
+        "area": "Geri",
+        "lat": 35.1435,
+        "lng": 33.3841,
+        "u95": 1.462,
+        "u98": 1.533,
+        "diesel": 1.507
+      },
+      {
+        "brand": "Esso",
+        "area": "Makedonitissa",
+        "lat": 35.1478,
+        "lng": 33.3373,
+        "u95": 1.466,
+        "u98": 1.537,
+        "diesel": 1.511
+      },
+      {
+        "brand": "P.E.C.",
+        "area": "Anthoupolis",
+        "lat": 35.1635,
+        "lng": 33.3934,
+        "u95": 1.459,
+        "u98": 1.53,
+        "diesel": 1.504
+      },
+      {
+        "brand": "P.E.C.",
+        "area": "Egkomi",
+        "lat": 35.1448,
+        "lng": 33.3554,
+        "u95": 1.463,
+        "u98": 1.534,
+        "diesel": 1.508
+      },
+      {
+        "brand": "P.E.C.",
+        "area": "Strovolos",
+        "lat": 35.173,
+        "lng": 33.3945,
+        "u95": 1.468,
+        "u98": 1.539,
+        "diesel": 1.513
+      },
+      {
+        "brand": "ENI",
+        "area": "Engomi",
+        "lat": 35.1892,
+        "lng": 33.3928,
+        "u95": 1.46,
+        "u98": 1.531,
+        "diesel": 1.505
+      },
+      {
+        "brand": "ENI",
+        "area": "Aglandjia",
+        "lat": 35.1567,
+        "lng": 33.3524,
+        "u95": 1.464,
+        "u98": 1.535,
+        "diesel": 1.509
+      }
+    ],
+    "Larnaca": [
+      {
+        "brand": "Petrolina",
+        "area": "Drosia",
+        "lat": 34.9095,
+        "lng": 33.6566,
+        "u95": 1.446,
+        "u98": 1.517,
+        "diesel": 1.491
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Livadia",
+        "lat": 34.9455,
+        "lng": 33.5906,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Aradippou",
+        "lat": 34.8986,
+        "lng": 33.5979,
+        "u95": 1.455,
+        "u98": 1.526,
+        "diesel": 1.5
+      },
+      {
+        "brand": "EKO",
+        "area": "Kamares",
+        "lat": 34.902,
+        "lng": 33.6206,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "EKO",
+        "area": "Oroklini",
+        "lat": 34.9233,
+        "lng": 33.6006,
+        "u95": 1.454,
+        "u98": 1.525,
+        "diesel": 1.499
+      },
+      {
+        "brand": "EKO",
+        "area": "Finikoudes",
+        "lat": 34.8882,
+        "lng": 33.6147,
+        "u95": 1.459,
+        "u98": 1.53,
+        "diesel": 1.504
+      },
+      {
+        "brand": "Esso",
+        "area": "Skala",
+        "lat": 34.9102,
+        "lng": 33.628,
+        "u95": 1.453,
+        "u98": 1.524,
+        "diesel": 1.498
+      },
+      {
+        "brand": "Esso",
+        "area": "Kiti",
+        "lat": 34.9452,
+        "lng": 33.6391,
+        "u95": 1.457,
+        "u98": 1.528,
+        "diesel": 1.502
+      },
+      {
+        "brand": "Esso",
+        "area": "Pervolia",
+        "lat": 34.9189,
+        "lng": 33.6326,
+        "u95": 1.462,
+        "u98": 1.533,
+        "diesel": 1.507
+      },
+      {
+        "brand": "Fill'n Go",
+        "area": "Drosia",
+        "lat": 34.9286,
+        "lng": 33.5819,
+        "u95": 1.448,
+        "u98": 1.519,
+        "diesel": 1.493
+      },
+      {
+        "brand": "Fill'n Go",
+        "area": "Livadia",
+        "lat": 34.942,
+        "lng": 33.6472,
+        "u95": 1.452,
+        "u98": 1.523,
+        "diesel": 1.497
+      }
+    ],
+    "Paphos": [
+      {
+        "brand": "EKO",
+        "area": "Kato Paphos",
+        "lat": 34.7945,
+        "lng": 32.4568,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "EKO",
+        "area": "Geroskipou",
+        "lat": 34.7655,
+        "lng": 32.4209,
+        "u95": 1.454,
+        "u98": 1.525,
+        "diesel": 1.499
+      },
+      {
+        "brand": "EKO",
+        "area": "Paphos centre",
+        "lat": 34.7482,
+        "lng": 32.4421,
+        "u95": 1.459,
+        "u98": 1.53,
+        "diesel": 1.504
+      },
+      {
+        "brand": "Esso",
+        "area": "Chloraka",
+        "lat": 34.7457,
+        "lng": 32.3911,
+        "u95": 1.453,
+        "u98": 1.524,
+        "diesel": 1.498
+      },
+      {
+        "brand": "Esso",
+        "area": "Mesogi",
+        "lat": 34.7545,
+        "lng": 32.3996,
+        "u95": 1.457,
+        "u98": 1.528,
+        "diesel": 1.502
+      },
+      {
+        "brand": "Esso",
+        "area": "Anavargos",
+        "lat": 34.7624,
+        "lng": 32.3897,
+        "u95": 1.462,
+        "u98": 1.533,
+        "diesel": 1.507
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Kato Paphos",
+        "lat": 34.742,
+        "lng": 32.3986,
+        "u95": 1.446,
+        "u98": 1.517,
+        "diesel": 1.491
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Geroskipou",
+        "lat": 34.7481,
+        "lng": 32.4177,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "Synergas",
+        "area": "Paphos centre",
+        "lat": 34.7435,
+        "lng": 32.4637,
+        "u95": 1.463,
+        "u98": 1.534,
+        "diesel": 1.508
+      },
+      {
+        "brand": "Synergas",
+        "area": "Chloraka",
+        "lat": 34.7788,
+        "lng": 32.3984,
+        "u95": 1.467,
+        "u98": 1.538,
+        "diesel": 1.512
+      }
+    ],
+    "Famagusta": [
+      {
+        "brand": "Petrolina",
+        "area": "Paralimni",
+        "lat": 35.0051,
+        "lng": 33.9563,
+        "u95": 1.446,
+        "u98": 1.517,
+        "diesel": 1.491
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Deryneia",
+        "lat": 35.0118,
+        "lng": 33.9361,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "Petrolina",
+        "area": "Sotira",
+        "lat": 35.0409,
+        "lng": 34.0144,
+        "u95": 1.455,
+        "u98": 1.526,
+        "diesel": 1.5
+      },
+      {
+        "brand": "Esso",
+        "area": "Ayia Napa",
+        "lat": 35.018,
+        "lng": 33.9685,
+        "u95": 1.453,
+        "u98": 1.524,
+        "diesel": 1.498
+      },
+      {
+        "brand": "Esso",
+        "area": "Frenaros",
+        "lat": 34.9952,
+        "lng": 33.9342,
+        "u95": 1.457,
+        "u98": 1.528,
+        "diesel": 1.502
+      },
+      {
+        "brand": "EKO",
+        "area": "Liopetri",
+        "lat": 35.0106,
+        "lng": 33.9488,
+        "u95": 1.45,
+        "u98": 1.521,
+        "diesel": 1.495
+      },
+      {
+        "brand": "EKO",
+        "area": "Paralimni",
+        "lat": 35.0397,
+        "lng": 33.9395,
+        "u95": 1.454,
+        "u98": 1.525,
+        "diesel": 1.499
+      },
+      {
+        "brand": "ENI",
+        "area": "Deryneia",
+        "lat": 34.9914,
+        "lng": 34.0106,
+        "u95": 1.46,
+        "u98": 1.531,
+        "diesel": 1.505
+      },
+      {
+        "brand": "ENI",
+        "area": "Sotira",
+        "lat": 35.0217,
+        "lng": 33.9382,
+        "u95": 1.464,
+        "u98": 1.535,
+        "diesel": 1.509
+      }
+    ]
+  }
+}

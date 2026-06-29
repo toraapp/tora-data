@@ -1,0 +1,314 @@
+{
+  "note": "SEED data — replace with live e-Kalathi feed once access is granted",
+  "updatedAt": "2026-06-26T17:43:08.746Z",
+  "storesByDistrict": {
+    "Nicosia": [
+      "AlphaMega",
+      "Sklavenitis",
+      "Lidl",
+      "Metro",
+      "Athienitis",
+      "Poplife"
+    ],
+    "Limassol": [
+      "AlphaMega",
+      "Sklavenitis",
+      "Lidl",
+      "Metro",
+      "Poplife"
+    ],
+    "Larnaca": [
+      "AlphaMega",
+      "Sklavenitis",
+      "Lidl",
+      "Metro",
+      "Poplife"
+    ],
+    "Paphos": [
+      "AlphaMega",
+      "Lidl",
+      "Metro",
+      "Papantoniou",
+      "Poplife"
+    ],
+    "Famagusta": [
+      "AlphaMega",
+      "Sklavenitis",
+      "Lidl",
+      "Metro",
+      "Poplife"
+    ]
+  },
+  "products": [
+    {
+      "id": "milk",
+      "name": "Fresh milk",
+      "unit": "1.5 L",
+      "cat": "Dairy",
+      "p": {
+        "AlphaMega": 1.95,
+        "Sklavenitis": 1.89,
+        "Lidl": 1.79,
+        "Metro": 1.99,
+        "Papantoniou": 1.92,
+        "Athienitis": 1.75,
+        "Poplife": 1.76
+      }
+    },
+    {
+      "id": "halloumi",
+      "name": "Halloumi",
+      "unit": "250 g",
+      "cat": "Dairy",
+      "p": {
+        "AlphaMega": 3.45,
+        "Sklavenitis": 3.29,
+        "Lidl": 2.99,
+        "Metro": 3.39,
+        "Papantoniou": 2.95,
+        "Athienitis": 2.89,
+        "Poplife": 2.96
+      }
+    },
+    {
+      "id": "yogurt",
+      "name": "Strained yogurt",
+      "unit": "500 g",
+      "cat": "Dairy",
+      "p": {
+        "AlphaMega": 1.79,
+        "Sklavenitis": 1.69,
+        "Lidl": 1.55,
+        "Metro": 1.75,
+        "Papantoniou": 1.72,
+        "Athienitis": 1.52,
+        "Poplife": 1.53
+      }
+    },
+    {
+      "id": "eggs",
+      "name": "Eggs (medium)",
+      "unit": "6 pk",
+      "cat": "Dairy",
+      "p": {
+        "AlphaMega": 1.65,
+        "Sklavenitis": 1.59,
+        "Lidl": 1.49,
+        "Metro": 1.69,
+        "Papantoniou": 1.62,
+        "Athienitis": 1.45,
+        "Poplife": 1.46
+      }
+    },
+    {
+      "id": "bread",
+      "name": "Sliced bread",
+      "unit": "600 g",
+      "cat": "Bakery",
+      "p": {
+        "AlphaMega": 1.45,
+        "Sklavenitis": 1.39,
+        "Lidl": 1.19,
+        "Metro": 1.49,
+        "Papantoniou": 1.42,
+        "Athienitis": 1.15,
+        "Poplife": 1.16
+      }
+    },
+    {
+      "id": "pasta",
+      "name": "Spaghetti",
+      "unit": "500 g",
+      "cat": "Pantry",
+      "p": {
+        "AlphaMega": 0.95,
+        "Sklavenitis": 0.89,
+        "Lidl": 0.69,
+        "Metro": 0.99,
+        "Papantoniou": 0.92,
+        "Athienitis": 0.65,
+        "Poplife": 0.66
+      }
+    },
+    {
+      "id": "rice",
+      "name": "Rice",
+      "unit": "1 kg",
+      "cat": "Pantry",
+      "p": {
+        "AlphaMega": 2.45,
+        "Sklavenitis": 2.39,
+        "Lidl": 1.99,
+        "Metro": 2.49,
+        "Papantoniou": 2.42,
+        "Athienitis": 1.95,
+        "Poplife": 1.96
+      }
+    },
+    {
+      "id": "sugar",
+      "name": "Sugar",
+      "unit": "1 kg",
+      "cat": "Pantry",
+      "p": {
+        "AlphaMega": 1.25,
+        "Sklavenitis": 1.19,
+        "Lidl": 1.09,
+        "Metro": 1.29,
+        "Papantoniou": 1.22,
+        "Athienitis": 1.05,
+        "Poplife": 1.06
+      }
+    },
+    {
+      "id": "oil",
+      "name": "Olive oil",
+      "unit": "1 L",
+      "cat": "Pantry",
+      "p": {
+        "AlphaMega": 8.95,
+        "Sklavenitis": 7.89,
+        "Lidl": 7.99,
+        "Metro": 9.2,
+        "Papantoniou": 8.75,
+        "Athienitis": 7.79,
+        "Poplife": 7.96
+      }
+    },
+    {
+      "id": "coffee",
+      "name": "Ground coffee",
+      "unit": "200 g",
+      "cat": "Pantry",
+      "p": {
+        "AlphaMega": 2.69,
+        "Sklavenitis": 3.05,
+        "Lidl": 2.79,
+        "Metro": 3.25,
+        "Papantoniou": 3.1,
+        "Athienitis": 2.75,
+        "Poplife": 2.76
+      }
+    },
+    {
+      "id": "water",
+      "name": "Bottled water",
+      "unit": "6×1.5 L",
+      "cat": "Drinks",
+      "p": {
+        "AlphaMega": 1.99,
+        "Sklavenitis": 1.89,
+        "Lidl": 1.69,
+        "Metro": 2.05,
+        "Papantoniou": 1.95,
+        "Athienitis": 1.65,
+        "Poplife": 1.66
+      }
+    },
+    {
+      "id": "soda",
+      "name": "Soft drink",
+      "unit": "1.5 L",
+      "cat": "Drinks",
+      "p": {
+        "AlphaMega": 1.55,
+        "Sklavenitis": 1.49,
+        "Lidl": 1.35,
+        "Metro": 1.59,
+        "Papantoniou": 1.52,
+        "Athienitis": 1.39,
+        "Poplife": 1.32
+      }
+    },
+    {
+      "id": "potato",
+      "name": "Potatoes",
+      "unit": "2 kg",
+      "cat": "Produce",
+      "p": {
+        "AlphaMega": 2.2,
+        "Sklavenitis": 2.1,
+        "Lidl": 1.89,
+        "Metro": 2.25,
+        "Papantoniou": 2.15,
+        "Athienitis": 1.85,
+        "Poplife": 1.86
+      }
+    },
+    {
+      "id": "tomato",
+      "name": "Tomatoes",
+      "unit": "1 kg",
+      "cat": "Produce",
+      "p": {
+        "AlphaMega": 1.85,
+        "Sklavenitis": 1.79,
+        "Lidl": 1.69,
+        "Metro": 1.89,
+        "Papantoniou": 1.82,
+        "Athienitis": 1.65,
+        "Poplife": 1.66
+      }
+    },
+    {
+      "id": "banana",
+      "name": "Bananas",
+      "unit": "1 kg",
+      "cat": "Produce",
+      "p": {
+        "AlphaMega": 1.45,
+        "Sklavenitis": 1.39,
+        "Lidl": 1.29,
+        "Metro": 1.49,
+        "Papantoniou": 1.42,
+        "Athienitis": 1.25,
+        "Poplife": 1.26
+      }
+    },
+    {
+      "id": "toilet",
+      "name": "Toilet paper",
+      "unit": "8 pk",
+      "cat": "Household",
+      "p": {
+        "AlphaMega": 3.95,
+        "Sklavenitis": 3.79,
+        "Lidl": 3.29,
+        "Metro": 3.99,
+        "Papantoniou": 3.85,
+        "Athienitis": 3.19,
+        "Poplife": 3.26
+      }
+    },
+    {
+      "id": "dish",
+      "name": "Dish soap",
+      "unit": "750 ml",
+      "cat": "Household",
+      "p": {
+        "AlphaMega": 2.15,
+        "Sklavenitis": 2.05,
+        "Lidl": 1.79,
+        "Metro": 2.19,
+        "Papantoniou": 2.1,
+        "Athienitis": 1.75,
+        "Poplife": 1.76
+      }
+    },
+    {
+      "id": "chicken",
+      "name": "Chicken fillet",
+      "unit": "1 kg",
+      "cat": "Meat",
+      "p": {
+        "AlphaMega": 6.95,
+        "Sklavenitis": 6.79,
+        "Lidl": 6.49,
+        "Metro": 6.39,
+        "Papantoniou": 6.85,
+        "Athienitis": 6.45,
+        "Poplife": 6.46
+      }
+    }
+  ]
+}
