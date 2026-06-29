@@ -42,15 +42,24 @@ const firstPhone = s => {
 
 // --- find the newest roster link on the category page ----------------------
 export function findLatestArticleUrl(categoryHtml) {
+  const slug = /ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/i;
   const $ = load(categoryHtml);
-  const re = /\/ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/i;
-  let url = null;
-  $("a[href]").each((_, a) => {
-    if (url) return;                       // first match = newest (top of list)
-    const href = $(a).attr("href") || "";
-    if (re.test(href)) url = href.startsWith("http") ? href : BASE + href;
+
+  let href = null;
+  $("a[href]").each((_, a) => {                  // first matching anchor = newest
+    if (href) return;
+    const h = $(a).attr("href") || "";
+    if (slug.test(h)) href = h;
   });
-  return url;
+
+  if (!href) {                                   // fallback: scan the raw HTML directly
+    const m = categoryHtml.match(/https?:\/\/[^"'\s<>]*ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/i)
+           || categoryHtml.match(/\/ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/i);
+    if (m) href = m[0];
+  }
+
+  if (!href) return null;
+  return href.startsWith("http") ? href : BASE + (href.startsWith("/") ? href : "/" + href);
 }
 
 // a district "label" is a short standalone heading/bold like "Λευκωσία"
@@ -117,12 +126,41 @@ async function get(url) {
 }
 
 async function main() {
-  const url = findLatestArticleUrl(await get(CATEGORY));
-  if (!url) throw new Error("Could not find a roster link on the category page");
+  const catHtml = await get(CATEGORY);
+  const url = findLatestArticleUrl(catHtml);
 
-  const pharmacies = parseArticle(await get(url));
+  if (!url) {
+    // Couldn't find a link — capture what the server actually returned, so we can see why.
+    mkdirSync("data", { recursive: true });
+    writeFileSync("data/_debug.json", JSON.stringify({
+      when: new Date().toISOString(),
+      stage: "category",
+      receivedLength: catHtml.length,
+      mentionsRoster: /dianyktereyonta-farmakeia/i.test(catHtml),
+      looksBlocked: /cloudflare|just a moment|enable javascript|cf-browser|captcha|access denied|verify you are human/i.test(catHtml),
+      head: catHtml.slice(0, 2000),
+    }, null, 2));
+    console.error("No roster link found — wrote data/_debug.json for inspection.");
+    return;                          // exit 0 so the debug file is committed and visible
+  }
+
+  const artHtml = await get(url);
+  const pharmacies = parseArticle(artHtml);
   const count = Object.values(pharmacies).reduce((n, a) => n + a.length, 0);
-  if (count === 0) throw new Error("Parsed 0 pharmacies — page structure may have changed");
+
+  if (count === 0) {
+    mkdirSync("data", { recursive: true });
+    writeFileSync("data/_debug.json", JSON.stringify({
+      when: new Date().toISOString(),
+      stage: "article",
+      source: url,
+      receivedLength: artHtml.length,
+      tableCount: (artHtml.match(/<table/gi) || []).length,
+      head: artHtml.slice(0, 2000),
+    }, null, 2));
+    console.error("Parsed 0 pharmacies — wrote data/_debug.json for inspection.");
+    return;
+  }
 
   const payload = {
     source: url,
