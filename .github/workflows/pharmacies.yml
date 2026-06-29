@@ -1,0 +1,36 @@
+name: Update pharmacy roster
+
+on:
+  schedule:
+    - cron: "30 18 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci
+
+      - name: Scrape latest roster
+        run: npm run scrape
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- data/; then
+            echo "No change in feeds."
+          else
+            git config user.name  "tora-bot"
+            git config user.email "bot@users.noreply.github.com"
+            git add data/
+            git commit -m "feeds: $(date -u +%Y-%m-%d)"
+            git push
+          fi
