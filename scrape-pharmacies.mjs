@@ -40,6 +40,68 @@ const firstPhone = s => {
   return m ? m[0] : "";
 };
 
+// --- dates -----------------------------------------------------------------
+const pad = n => String(n).padStart(2, "0");
+
+// today's date in Cyprus (so the day rolls over at Cyprus midnight, not UTC)
+function cyprusToday() {
+  const f = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Nicosia", year: "numeric", month: "2-digit", day: "2-digit",
+  });
+  const [y, m, d] = f.format(new Date()).split("-").map(Number);
+  return { y, m, d };
+}
+
+// month names as they appear in the URL slug (tolerant of b/v transliteration)
+const MONTHS = {
+  ianoyarioy: 1, febroyarioy: 2, fevroyarioy: 2, martioy: 3, aprilioy: 4, maioy: 5,
+  ioynioy: 6, ioylioy: 7, aygoystoy: 8, septembrioy: 9, septemvrioy: 9,
+  oktobrioy: 10, oktovrioy: 10, oktomvrioy: 10, noembrioy: 11, noemvrioy: 11,
+  dekembrioy: 12, dekemvrioy: 12,
+};
+
+// pull {y,m,d} out of a roster URL like "...-ti-deytera-29-ioynioy-2026-einai-ta-eksis"
+function parseSlugDate(url) {
+  const m = url.toLowerCase().match(/-(\d{1,2})-([a-z]+)-(\d{4})-einai-ta-eksis/);
+  if (!m) return null;
+  const mon = MONTHS[m[2]];
+  return mon ? { y: +m[3], m: mon, d: +m[1] } : null;
+}
+
+// every roster link on the category page, newest first
+function allRosterLinks(categoryHtml) {
+  const slug = /ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/i;
+  const $ = load(categoryHtml);
+  const seen = new Set(), out = [];
+  const add = h => {
+    const abs = h.startsWith("http") ? h : BASE + (h.startsWith("/") ? h : "/" + h);
+    if (!seen.has(abs)) { seen.add(abs); out.push(abs); }
+  };
+  $("a[href]").each((_, a) => { const h = $(a).attr("href") || ""; if (slug.test(h)) add(h); });
+  if (out.length === 0) {                        // fallback: scan raw HTML
+    const re = /https?:\/\/[^"'\s<>]*ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/ig;
+    let m; while ((m = re.exec(categoryHtml))) add(m[0]);
+  }
+  return out;
+}
+
+// choose today's roster; if not posted yet, the most recent PAST one (never a future/tomorrow list)
+export function pickArticleForToday(categoryHtml, today) {
+  const links = allRosterLinks(categoryHtml);
+  if (links.length === 0) return { url: null };
+  const todayNum = today.y * 10000 + today.m * 100 + today.d;
+  let best = null, bestNum = -1;
+  for (const url of links) {
+    const d = parseSlugDate(url);
+    if (!d) continue;
+    const num = d.y * 10000 + d.m * 100 + d.d;
+    if (num <= todayNum && num > bestNum) { bestNum = num; best = { url, date: d }; }
+  }
+  if (best) return { url: best.url, date: best.date, matched: bestNum === todayNum };
+  const url = links[0];                           // nothing parseable/past → newest link
+  return { url, date: parseSlugDate(url) || today, matched: false };
+}
+
 // --- find the newest roster link on the category page ----------------------
 export function findLatestArticleUrl(categoryHtml) {
   const slug = /ta-dianyktereyonta-farmakeia-[a-z0-9-]*einai-ta-eksis/i;
@@ -127,10 +189,10 @@ async function get(url) {
 
 async function main() {
   const catHtml = await get(CATEGORY);
-  const url = findLatestArticleUrl(catHtml);
+  const today = cyprusToday();
+  const pick = pickArticleForToday(catHtml, today);
 
-  if (!url) {
-    // Couldn't find a link — capture what the server actually returned, so we can see why.
+  if (!pick.url) {
     mkdirSync("data", { recursive: true });
     writeFileSync("data/_debug.json", JSON.stringify({
       when: new Date().toISOString(),
@@ -141,10 +203,10 @@ async function main() {
       head: catHtml.slice(0, 2000),
     }, null, 2));
     console.error("No roster link found — wrote data/_debug.json for inspection.");
-    return;                          // exit 0 so the debug file is committed and visible
+    return;
   }
 
-  const artHtml = await get(url);
+  const artHtml = await get(pick.url);
   const pharmacies = parseArticle(artHtml);
   const count = Object.values(pharmacies).reduce((n, a) => n + a.length, 0);
 
@@ -153,7 +215,7 @@ async function main() {
     writeFileSync("data/_debug.json", JSON.stringify({
       when: new Date().toISOString(),
       stage: "article",
-      source: url,
+      source: pick.url,
       receivedLength: artHtml.length,
       tableCount: (artHtml.match(/<table/gi) || []).length,
       head: artHtml.slice(0, 2000),
@@ -162,16 +224,19 @@ async function main() {
     return;
   }
 
+  const forDate = `${pick.date.y}-${pad(pick.date.m)}-${pad(pick.date.d)}`;
   const payload = {
-    source: url,
-    slug: slugDate(url),
+    source: pick.url,
+    forDate,                       // the date this roster is actually for (YYYY-MM-DD)
+    isToday: pick.matched,         // false when today's wasn't posted yet (showing the most recent)
+    slug: slugDate(pick.url),
     scrapedAt: new Date().toISOString(),
     count,
     pharmacies,
   };
   mkdirSync("data", { recursive: true });
   writeFileSync("data/pharmacies.json", JSON.stringify(payload, null, 2));
-  console.log(`✓ wrote data/pharmacies.json — ${count} pharmacies from ${url}`);
+  console.log(`✓ wrote data/pharmacies.json — ${count} pharmacies for ${forDate}${pick.matched ? "" : " (today's not posted yet; using most recent)"}`);
 }
 
 // only run when invoked directly (so imports for testing stay side-effect free)

@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0F1922" />
+<title>Tóra · Cyprus — pharmacies & fuel, right now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --night:#0F1922; --night-2:#0A1118; --surface:#17242F; --surface-2:#1E2E3A;
+    --line:rgba(237,230,216,.10); --line-strong:rgba(237,230,216,.18);
+    --copper:#D08A52; --copper-bright:#E8A368;
+    --olive:#8AA06B; --open:#54C28C; --closed:#6B7A87;
+    --ink:#EDE6D8; --ink-dim:#9DAAB5; --amber:#F0B556;
+    --shadow:0 18px 40px -22px rgba(0,0,0,.8);
+    --r:18px;
+    --font-display:'Space Grotesk',system-ui,-apple-system,sans-serif;
+    --font-body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--font-body); color:var(--ink);
+    background:
+      radial-gradient(120% 80% at 50% -10%, #1A2A38 0%, var(--night) 46%, var(--night-2) 100%) fixed;
+    -webkit-font-smoothing:antialiased; line-height:1.45;
+    display:flex; justify-content:center;
+  }
+  .app{
+    width:100%; max-width:480px; min-height:100dvh; position:relative;
+    padding:0 0 calc(76px + env(safe-area-inset-bottom)); display:flex; flex-direction:column;
+  }
+  .num{font-family:var(--font-display); font-feature-settings:"tnum" 1; font-variant-numeric:tabular-nums}
+
+  /* ---------- header ---------- */
+  .head{
+    position:sticky; top:0; z-index:20;
+    padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;
+    background:linear-gradient(180deg, rgba(15,25,34,.96), rgba(15,25,34,.78) 70%, transparent);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  }
+  .head__row{display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .brand{display:flex; align-items:baseline; gap:9px}
+  .brand__mark{
+    font-family:var(--font-display); font-weight:700; font-size:26px; letter-spacing:-.5px;
+    color:var(--ink);
+  }
+  .brand__mark b{color:var(--copper-bright); font-weight:700}
+  .brand__sub{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim)}
+  .district{
+    display:flex; align-items:center; gap:6px; font-family:var(--font-display);
+    font-weight:500; font-size:13.5px; color:var(--ink);
+    background:var(--surface); border:1px solid var(--line-strong);
+    padding:8px 11px; border-radius:12px; cursor:pointer; position:relative;
+  }
+  .district svg{width:13px;height:13px;opacity:.7}
+  .district select{
+    position:absolute; inset:0; opacity:0; width:100%; cursor:pointer;
+    font-size:16px; /* keeps iOS from zooming */
+  }
+  .ticker{
+    margin-top:12px; display:flex; align-items:center; gap:9px;
+    font-size:13px; color:var(--ink-dim);
+  }
+  .pulse{position:relative; width:9px;height:9px;flex:none}
+  .pulse::before,.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--open)}
+  .pulse::after{animation:ring 2.1s ease-out infinite}
+  @keyframes ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.4);opacity:0}}
+  .ticker b{color:var(--ink); font-family:var(--font-display); font-weight:600}
+
+  /* ---------- generic ---------- */
+  .view{padding:6px 16px 8px; flex:1; display:none; animation:fade .35s ease}
+  .view.is-active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+  .eyebrow{
+    font-family:var(--font-display); font-weight:600; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--copper); margin:14px 2px 10px; display:flex;
+    align-items:center; gap:8px;
+  }
+  .eyebrow::after{content:"";height:1px;flex:1;background:var(--line)}
+
+  .card{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--r); padding:15px 16px; margin-bottom:11px; box-shadow:var(--shadow);
+  }
+  .card__top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
+  .name{font-family:var(--font-display); font-weight:600; font-size:16.5px; letter-spacing:-.2px; line-height:1.25}
+  .area{font-size:13px; color:var(--ink-dim); margin-top:3px}
+  .area .dot{opacity:.4; margin:0 6px}
+  .badge{
+    flex:none; font-family:var(--font-display); font-size:11px; font-weight:600;
+    letter-spacing:.04em; padding:5px 9px; border-radius:999px; display:flex; align-items:center; gap:5px;
+    border:1px solid var(--line-strong);
+  }
+  .badge--open{color:var(--open); background:rgba(84,194,140,.10); border-color:rgba(84,194,140,.32)}
+  .badge--soon{color:var(--amber); background:rgba(240,181,86,.10); border-color:rgba(240,181,86,.30)}
+  .badge--closed{color:var(--closed); background:rgba(107,122,135,.10)}
+  .badge .pip{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+  .meta{display:flex; align-items:center; gap:14px; margin-top:11px; font-size:12.5px; color:var(--ink-dim)}
+  .meta svg{width:13px;height:13px;vertical-align:-2px;margin-right:4px;opacity:.7}
+
+  .actions{display:flex; gap:9px; margin-top:13px}
+  .btn{
+    flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+    font-family:var(--font-display); font-weight:600; font-size:13.5px; padding:11px;
+    border-radius:12px; border:1px solid var(--line-strong); background:var(--surface-2);
+    color:var(--ink); text-decoration:none; cursor:pointer; transition:transform .08s ease, background .15s;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn svg{width:15px;height:15px}
+  .btn--call{background:var(--copper); border-color:transparent; color:#221208}
+  .btn--call:hover{background:var(--copper-bright)}
+  .btn:focus-visible{outline:2px solid var(--copper-bright); outline-offset:2px}
+
+  /* ---------- fuel totem (signature) ---------- */
+  .seg{
+    display:flex; gap:6px; background:var(--night-2); border:1px solid var(--line);
+    border-radius:14px; padding:5px; margin:4px 0 6px;
+  }
+  .seg button{
+    flex:1; font-family:var(--font-display); font-weight:600; font-size:13.5px;
+    color:var(--ink-dim); background:transparent; border:0; padding:9px 6px; border-radius:10px;
+    cursor:pointer; transition:.18s;
+  }
+  .seg button.is-on{background:var(--surface-2); color:var(--ink); box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
+  .seg button:focus-visible{outline:2px solid var(--copper-bright); outline-offset:1px}
+
+  .chips{display:flex; gap:8px; overflow-x:auto; padding:2px 2px 8px; margin:0 -2px;
+    scrollbar-width:none; -webkit-overflow-scrolling:touch}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none; font-family:var(--font-display); font-weight:500; font-size:13px;
+    color:var(--ink-dim); background:var(--surface); border:1px solid var(--line-strong);
+    padding:7px 14px; border-radius:999px; cursor:pointer; transition:.16s; white-space:nowrap}
+  .chip:hover{color:var(--ink)}
+  .chip.is-on{color:#221208; background:var(--copper); border-color:transparent}
+  .chip:focus-visible{outline:2px solid var(--copper-bright); outline-offset:2px}
+
+  .morebtn{width:100%; display:flex; align-items:center; justify-content:center; gap:7px;
+    font-family:var(--font-display); font-weight:600; font-size:13px; color:var(--ink-dim);
+    background:var(--surface); border:1px dashed var(--line-strong); border-radius:14px;
+    padding:13px; cursor:pointer; transition:.15s; margin:2px 0 11px}
+  .morebtn:hover{color:var(--ink); border-color:var(--copper); border-style:solid}
+  .morebtn:active{transform:scale(.99)}
+  .morebtn svg{width:14px;height:14px; transition:transform .2s}
+  .morebtn.open svg{transform:rotate(180deg)}
+  .morebtn:focus-visible{outline:2px solid var(--copper-bright); outline-offset:2px}
+
+  .ftools{display:flex; align-items:center; justify-content:space-between; gap:12px; margin:8px 2px 0}
+  .ftools__label{font-family:var(--font-display); font-weight:600; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--ink-dim)}
+  .sortsel{position:relative; display:flex; align-items:center; gap:7px; font-family:var(--font-display);
+    font-weight:600; font-size:13.5px; color:var(--ink); background:var(--surface);
+    border:1px solid var(--line-strong); padding:8px 12px; border-radius:12px; cursor:pointer}
+  .sortsel svg{width:14px;height:14px;opacity:.7}
+  .sortsel select{position:absolute; inset:0; opacity:0; width:100%; cursor:pointer; font-size:16px}
+  .locbar{display:none; align-items:center; gap:7px; font-size:12.5px; color:var(--copper);
+    margin:9px 4px 0; cursor:pointer; font-family:var(--font-display); font-weight:500}
+  .locbar.show{display:flex}
+  .locbar.approx{color:var(--ink-dim)}
+  .locbar svg{width:13px;height:13px;flex:none}
+
+  .totem{
+    position:relative; border-radius:22px; padding:20px 20px 18px; overflow:hidden;
+    background:
+      radial-gradient(140% 90% at 80% -20%, rgba(208,138,82,.16), transparent 60%),
+      linear-gradient(180deg, #0B141C, #070C12);
+    border:1px solid rgba(240,181,86,.16);
+    box-shadow:var(--shadow), 0 0 60px -30px rgba(240,181,86,.5);
+  }
+  .totem__label{font-family:var(--font-display); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--copper)}
+  .totem__price{display:flex; align-items:baseline; gap:6px; margin:6px 0 2px}
+  .totem__cur{font-family:var(--font-display); font-weight:600; font-size:26px; color:var(--amber); opacity:.85}
+  .totem__big{
+    font-family:var(--font-display); font-weight:700; font-size:62px; line-height:.9; color:var(--amber);
+    letter-spacing:-2px; text-shadow:0 0 26px rgba(240,181,86,.35); font-variant-numeric:tabular-nums;
+  }
+  .totem__unit{font-size:13px; color:var(--ink-dim); margin-left:2px}
+  .totem__where{font-family:var(--font-display); font-weight:600; font-size:15px; margin-top:6px; color:var(--ink)}
+  .totem__sub{font-size:12.5px; color:var(--ink-dim); margin-top:2px}
+  .totem__go{
+    position:absolute; right:16px; bottom:16px; width:46px;height:46px; border-radius:50%;
+    background:var(--copper); color:#221208; border:0; display:grid; place-items:center; cursor:pointer;
+    box-shadow:0 8px 20px -8px rgba(208,138,82,.8);
+  }
+  .totem__go:active{transform:scale(.94)}
+  .totem__go svg{width:19px;height:19px}
+
+  .price{font-family:var(--font-display); font-weight:700; font-size:18px; color:var(--ink); font-variant-numeric:tabular-nums}
+  .price small{font-size:11px; color:var(--ink-dim); font-weight:500; margin-left:2px}
+  .rank{
+    font-family:var(--font-display); font-weight:700; font-size:13px; color:var(--copper);
+    width:24px; flex:none; text-align:center; opacity:.85;
+  }
+  .row{display:flex; align-items:center; gap:12px}
+
+  .note{
+    display:flex; gap:10px; align-items:flex-start; font-size:12.5px; color:var(--ink-dim);
+    background:rgba(208,138,82,.07); border:1px solid rgba(208,138,82,.18);
+    padding:11px 13px; border-radius:13px; margin:2px 0 12px; line-height:1.4;
+  }
+  .note svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--copper)}
+
+  .sample{
+    text-align:center; font-size:11px; letter-spacing:.04em; color:var(--ink-dim);
+    padding:14px 16px 4px; opacity:.8;
+  }
+  .sample b{color:var(--copper)}
+
+  /* ---------- bottom nav ---------- */
+  .nav{
+    position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px;
+    z-index:30; display:flex; padding:8px 14px calc(8px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg, transparent, rgba(10,17,24,.92) 32%);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  }
+  .nav__inner{display:flex; flex:1; gap:6px; background:var(--surface); border:1px solid var(--line-strong);
+    border-radius:18px; padding:6px; box-shadow:var(--shadow)}
+  .tab{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    font-family:var(--font-display); font-weight:600; font-size:11.5px; letter-spacing:.02em;
+    color:var(--ink-dim); background:transparent; border:0; padding:9px 4px 7px; border-radius:13px;
+    cursor:pointer; transition:.2s;
+  }
+  .tab svg{width:21px;height:21px}
+  .tab.is-on{color:var(--ink); background:var(--surface-2)}
+  .tab.is-on.tab--rx{color:var(--open)}
+  .tab.is-on.tab--fuel{color:var(--copper-bright)}
+  .tab.is-on.tab--shop{color:#B6CE92}
+  .tab.is-on.tab--air{color:#6CD3DF}
+  .tab:focus-visible{outline:2px solid var(--copper-bright); outline-offset:1px}
+
+  /* ---------- groceries ---------- */
+  .gtotem{position:relative; border-radius:22px; padding:20px; overflow:hidden;
+    background:radial-gradient(140% 90% at 80% -20%, rgba(138,160,107,.18), transparent 60%), linear-gradient(180deg,#0E1A14,#070C09);
+    border:1px solid rgba(169,194,133,.18); box-shadow:var(--shadow), 0 0 60px -30px rgba(169,194,133,.5)}
+  .gtotem__label{font-family:var(--font-display); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#B6CE92}
+  .gtotem__row{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-top:10px}
+  .gtotem__store{font-family:var(--font-display); font-weight:700; font-size:25px; letter-spacing:-.4px; color:var(--ink)}
+  .gtotem__price{display:flex; align-items:baseline; gap:3px}
+  .gtotem__cur{font-family:var(--font-display); font-weight:600; font-size:21px; color:#CFE0AE; opacity:.85}
+  .gtotem__big{font-family:var(--font-display); font-weight:700; font-size:42px; line-height:.9; color:#CFE0AE; letter-spacing:-1.5px; font-variant-numeric:tabular-nums; text-shadow:0 0 24px rgba(169,194,133,.3)}
+  .gtotem__save{margin-top:11px; font-size:12.5px; color:#B6CE92; font-family:var(--font-display); font-weight:600}
+  .gtotem__save b{color:#CFE0AE}
+
+  .store{display:flex; align-items:center; gap:11px; padding:12px 14px; background:var(--surface);
+    border:1px solid var(--line); border-radius:14px; margin-bottom:9px}
+  .store.win{border-color:rgba(169,194,133,.35); background:rgba(138,160,107,.08)}
+  .store__rank{font-family:var(--font-display); font-weight:700; font-size:13px; color:var(--olive); width:18px; text-align:center; flex:none; opacity:.85}
+  .store__name{flex:1; font-family:var(--font-display); font-weight:600; font-size:15px}
+  .store__delta{font-size:12px; color:var(--ink-dim); font-family:var(--font-display)}
+  .store__total{font-family:var(--font-display); font-weight:700; font-size:16px; font-variant-numeric:tabular-nums; min-width:62px; text-align:right}
+
+  .catlabel{font-family:var(--font-display); font-weight:600; font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-dim); margin:15px 4px 3px}
+  .prow{display:flex; align-items:center; gap:12px; padding:11px 4px; border-bottom:1px solid var(--line)}
+  .prow.off{opacity:.55}
+  .prow__info{flex:1; min-width:0}
+  .prow__name{font-family:var(--font-display); font-weight:600; font-size:14.5px}
+  .prow__name span{color:var(--ink-dim); font-weight:500}
+  .prow__meta{font-size:12px; color:var(--ink-dim); margin-top:2px}
+  .prow__meta b{color:#B6CE92; font-weight:600}
+  .stepper{display:flex; align-items:center; flex:none; background:var(--night-2);
+    border:1px solid var(--line-strong); border-radius:11px; overflow:hidden}
+  .stepper button{width:34px; height:34px; border:0; background:transparent; color:var(--ink);
+    font-size:19px; font-family:var(--font-display); cursor:pointer; display:grid; place-items:center; transition:.12s}
+  .stepper button:hover{background:var(--surface-2); color:#B6CE92}
+  .stepper button:active{transform:scale(.9)}
+  .stepper button:focus-visible{outline:2px solid #B6CE92; outline-offset:-2px}
+  .stepper__qty{min-width:28px; text-align:center; font-family:var(--font-display); font-weight:700; font-size:14px; font-variant-numeric:tabular-nums}
+  .prow.off .stepper__qty{color:var(--ink-dim)}
+
+  /* ---------- air quality ---------- */
+  .airhero{position:relative; border-radius:22px; padding:20px; overflow:hidden; cursor:pointer;
+    background:radial-gradient(140% 90% at 80% -20%, rgba(108,211,223,.16), transparent 60%), linear-gradient(180deg,#0B1820,#070E12);
+    border:1px solid rgba(108,211,223,.18); box-shadow:var(--shadow), 0 0 60px -30px rgba(108,211,223,.5)}
+  .airhero__label{font-family:var(--font-display); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8FDDE6}
+  .airhero__row{display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:10px}
+  .airhero__aqi{font-family:var(--font-display); font-weight:700; font-size:58px; line-height:.85; letter-spacing:-2px; font-variant-numeric:tabular-nums}
+  .airhero__band{font-family:var(--font-display); font-weight:700; font-size:19px; text-align:right}
+  .airhero__sub{font-size:12.5px; color:var(--ink-dim); margin-top:10px}
+  .airdot{display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:7px}
+
+  .airgrid{display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-bottom:11px}
+  .metric{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:14px}
+  .metric--wide{grid-column:1 / -1}
+  .metric__k{font-size:12px; color:var(--ink-dim); font-family:var(--font-display); font-weight:600; letter-spacing:.04em; display:flex; align-items:center; gap:7px}
+  .metric__v{font-family:var(--font-display); font-weight:700; font-size:27px; font-variant-numeric:tabular-nums; margin-top:5px}
+  .metric__u{font-size:12px; color:var(--ink-dim); font-weight:500; margin-left:3px}
+  .metric__note{font-size:12px; margin-top:7px; font-weight:600; font-family:var(--font-display); line-height:1.35}
+  .uvbar{height:6px; border-radius:99px; margin-top:10px; background:linear-gradient(90deg,#4FB286,#F0C24E,#E8893E,#D9534F,#9B4DCA)}
+  .uvbar__pin{position:relative; top:-9px; width:12px; height:12px; border-radius:50%; background:#fff; border:2px solid #0B1820; box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+
+  /* ---------- delivery hand-off ---------- */
+  .deliver{margin-bottom:12px}
+  .deliver__copy{width:100%; font-family:var(--font-display); font-weight:600; font-size:13.5px; color:var(--ink);
+    background:var(--surface); border:1px dashed var(--line-strong); border-radius:13px; padding:12px; cursor:pointer; margin-bottom:9px; transition:.15s}
+  .deliver__copy:hover{border-color:var(--olive); border-style:solid; color:#B6CE92}
+  .deliver__copy:active{transform:scale(.99)}
+  .deliver__apps{display:grid; grid-template-columns:1fr 1fr; gap:9px}
+  .deliver__btn{display:flex; align-items:center; justify-content:center; gap:7px; text-decoration:none;
+    font-family:var(--font-display); font-weight:700; font-size:13.5px; padding:13px; border-radius:13px; transition:transform .08s}
+  .deliver__btn:active{transform:scale(.98)}
+  .deliver__btn--wolt{background:#00C2E8; color:#04222B}
+  .deliver__btn--foody{background:#EE5A2A; color:#fff}
+  .deliver__hint{font-size:11.5px; color:var(--ink-dim); text-align:center; margin-top:9px; line-height:1.4}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== HEADER ===== -->
+  <header class="head">
+    <div class="head__row">
+      <div class="brand">
+        <span class="brand__mark">tóra<b>.</b></span>
+        <span class="brand__sub">Cyprus</span>
+      </div>
+      <label class="district" aria-label="Choose district">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span id="districtName">Limassol</span>
+        <select id="districtSelect">
+          <option>Nicosia</option><option selected>Limassol</option>
+          <option>Larnaca</option><option>Paphos</option><option>Famagusta</option>
+        </select>
+      </label>
+    </div>
+    <div class="ticker" id="ticker"><span class="pulse"></span><span>Loading tonight’s duty roster…</span></div>
+  </header>
+
+  <!-- ===== PHARMACIES ===== -->
+  <section class="view is-active" id="view-rx">
+    <div class="eyebrow">On duty · <span id="rxDate">tonight</span></div>
+    <div id="rxList"></div>
+    <div class="sample" id="rxSource">Live roster · MoH overnight list via ygeia-news.com</div>
+  </section>
+
+  <!-- ===== FUEL ===== -->
+  <section class="view" id="view-fuel">
+    <div class="seg" id="fuelSeg" role="tablist">
+      <button class="is-on" data-fuel="u95">Unleaded 95</button>
+      <button data-fuel="u98">Unleaded 98</button>
+      <button data-fuel="diesel">Diesel</button>
+    </div>
+
+    <div class="chips" id="brandChips" role="tablist" aria-label="Filter by brand"></div>
+
+    <div class="ftools">
+      <span class="ftools__label">Sort by</span>
+      <label class="sortsel" aria-label="Sort stations">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+        <span id="sortName">Cheapest</span>
+        <select id="fuelSort">
+          <option value="price">Cheapest</option>
+          <option value="value">Best value</option>
+          <option value="near">Nearest</option>
+        </select>
+      </label>
+    </div>
+    <div class="locbar" id="locStatus"></div>
+
+    <div class="eyebrow" id="totemEyebrow">Cheapest right now</div>
+    <div class="totem" id="totem"></div>
+
+    <div class="eyebrow">Other stations</div>
+    <div id="fuelList"></div>
+    <div id="fuelMore"></div>
+
+    <div class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+      <span><b style="color:var(--ink)">No 100-octane here.</b> The government observatory only tracks 95, 98 &amp; diesel. Premium 100 (V-Power Racing etc.) isn’t reported — we’ll crowdsource it from drivers instead.</span>
+    </div>
+    <div class="sample">Sample prices — wired to the <b>Fuel Price Observatory</b> API once access is granted.</div>
+  </section>
+
+  <!-- ===== GROCERIES ===== -->
+  <section class="view" id="view-shop">
+    <div class="eyebrow">Quick baskets</div>
+    <div class="chips" id="basketPresets"></div>
+
+    <div class="eyebrow">Cheapest basket</div>
+    <div class="gtotem" id="basketHero"></div>
+
+    <div class="eyebrow">Store totals</div>
+    <div id="storeList"></div>
+
+    <div class="eyebrow">Your basket</div>
+    <div id="productList"></div>
+
+    <div class="eyebrow">Get it delivered</div>
+    <div class="deliver">
+      <button class="deliver__copy" id="copyList">Copy my list</button>
+      <div class="deliver__apps">
+        <a class="deliver__btn deliver__btn--wolt" id="woltBtn" target="_blank" rel="noopener">Order on Wolt</a>
+        <a class="deliver__btn deliver__btn--foody" id="foodyBtn" target="_blank" rel="noopener">Order on Foody</a>
+      </div>
+      <div class="deliver__hint" id="deliverHint">Opens your area's supermarkets — paste your list to add items fast.</div>
+    </div>
+
+    <div class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+      <span>No single store wins everything — check each item's <b style="color:var(--ink)">cheapest at</b> tag to cherry-pick, or just go where your whole basket totals least.</span>
+    </div>
+    <div class="sample">Sample prices — wired to the <b>e-Kalathi</b> price observatory on launch.</div>
+  </section>
+
+  <!-- ===== AIR QUALITY ===== -->
+  <section class="view" id="view-air">
+    <div class="eyebrow">Air quality now</div>
+    <div class="airhero" id="airHero" role="button" tabindex="0" aria-label="Refresh air quality"></div>
+
+    <div class="eyebrow">Particles</div>
+    <div class="airgrid" id="airParticles"></div>
+
+    <div class="eyebrow">Sun</div>
+    <div id="airUV"></div>
+
+    <div class="sample">Live · <b>Open-Meteo</b> air-quality &amp; UV · tap the card to refresh</div>
+  </section>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <button class="tab tab--rx is-on" data-tab="rx" aria-label="Pharmacies">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+        Pharmacies
+      </button>
+      <button class="tab tab--fuel" data-tab="fuel" aria-label="Fuel prices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v15M3 21h14M5 11h10"/><path d="M15 8h2.5A1.5 1.5 0 0 1 19 9.5V16a1.5 1.5 0 0 0 3 0V9l-2.5-2.5"/></svg>
+        Fuel
+      </button>
+      <button class="tab tab--shop" data-tab="shop" aria-label="Grocery prices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16l-1.3 9.2a2 2 0 0 1-2 1.8H7.3a2 2 0 0 1-2-1.8L4 9Z"/><path d="M9 9 12 4l3 5"/><path d="M9.5 13v3M14.5 13v3"/></svg>
+        Groceries
+      </button>
+      <button class="tab tab--air" data-tab="air" aria-label="Air quality">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 16h15a3 3 0 1 1-3 3"/><path d="M3 12h9"/></svg>
+        Air
+      </button>
+    </div>
+  </nav>
+</div>
+
+<script>
+/* =====================================================================
+   DATA LAYER  —  swap these two objects for the real Cyprus feeds.
+   • PHARMACIES → MoH "Cyprus Pharmacy Guide" open dataset (on-call list)
+   • FUEL       → Retail Fuel Price Observatory API (XML, on application)
+   Everything below is sample data so the shell is fully clickable now.
+   ===================================================================== */
+
+/* Real overnight (διανυκτερεύοντα) roster — Thu 25 Jun 2026, MoH list via ygeia-news.com */
+const PHARMACIES = {
+  Nicosia: [
+    {name:"Μαρίνα Νεοφύτου", area:"Έγκωμη", address:"Γερμανού Πατρών 5", note:"Πίσω από το Mall της Έγκωμης", phone:"22322226"},
+    {name:"Δέσποινα Πέτρου", area:"Στρόβολος", address:"Λεωφ. Τσερίου 84", note:"Δίπλα από Υπεραγορά Αυγουστής, έναντι φούρνου Ζορπάς", phone:"22441666"},
+    {name:"Μιχαήλ Ακριτίδης", area:"Παλλουριώτισσα", address:"Λεωφ. Τζων Κέννεντυ 70Α", note:"Δίπλα από ACS courier, απέναντι από LIDL", phone:"22316123"},
+    {name:"Λούκας Τσαγκάρης", area:"Λευκωσία", address:"Γρίβα Διγενή 64 & Βύρωνος", note:"Bridge House", phone:"22671531"},
+    {name:"Αννίτα Χατζηιωάννου", area:"Λευκωσία", address:"Νάξου 14Γ", note:"Πάροδος Μακαρίου & Διγενή Ακρίτα, απέναντι από CYTA", phone:"22755999"},
+    {name:"Στέλιος Χριστοφόρου", area:"Δάλι", address:"Ηνωμένων Εθνών 18Α", note:"", phone:"22573035"},
+  ],
+  Limassol: [
+    {name:"Γιάννα Καμενίδου", area:"Ζακάκι", address:"Λεωφ. Φρ. Ρούσβελτ 255Ε", note:"Έναντι αρτοποιείου Sunfresh", phone:"25715315"},
+    {name:"Αλεξία Γαβριήλ Θουκυδίδου", area:"Λεμεσός", address:"Αγίας Σοφίας 92Γ", note:"Έναντι εκκλησίας Απ. Ανδρέα Χαράκη, κάθετος Νίκου Παττίχη", phone:"25731411"},
+    {name:"Παναγιώτης Παναγιώτου", area:"Αγία Φύλα", address:"Αγίας Φυλάξεως 225", note:"100μ από το roundabout Αγ. Φύλας, δίπλα από Sunfresh", phone:"25770930"},
+    {name:"Σιηρίτ Λίμπερμαν", area:"Αγία Ζώνη", address:"Θέκλας Λυσιώτη 23Α", note:"Δίπλα από το Θέκλειο Γυμνάσιο", phone:"25044308"},
+    {name:"Συλβάνα Έρεφιτς", area:"Λεμεσός", address:"Όμηρου 31", note:"Δρόμος Χαλκούτσας & Sklavenitis, απέναντι από σχολείο Pascal", phone:"25772708"},
+  ],
+  Larnaca: [
+    {name:"Νικόλας Ταντελές", area:"Κίτι", address:"Λεωφ. Αρχ. Μακαρίου ΙΙΙ 30", note:"", phone:"24427300"},
+    {name:"Χριστίνα Σμυρίλλη-Πύλα", area:"Λάρνακα", address:"Νικοδήμου Μυλωνά 12", note:"Έναντι Υπεραγοράς ΜΕΤΡΟ", phone:"24650777"},
+    {name:"Κωνσταντίνος Πασχάλης", area:"Λάρνακα", address:"Λεωφ. Κων. Παλαιολόγου 37", note:"Δρόμος πρώην Α.Η.Κ.", phone:"24662233"},
+  ],
+  Paphos: [
+    {name:"Ίκαρος Πολυκάρπου", area:"Πάφος", address:"Ελευθερίου Βενιζέλου 29", note:"Κάτω από την Κλινική Άγιος Γεώργιος", phone:"26935133"},
+    {name:"Δωροθέα Κοκκίνου", area:"Πόλις Χρυσοχούς", address:"Γρίβα Διγενή 51", note:"", phone:"26322220"},
+  ],
+  Famagusta: [
+    {name:"Δέσποινα Γέρημου", area:"Παραλίμνι", address:"Αγίου Δημητρίου 105, Κατ. 1", note:"", phone:"23730220"},
+    {name:"Μαρία Δασκαλάκη", area:"Σωτήρα", address:"Μακαρίου Γ' 34", note:"Πλησίον Δημαρχείου Σωτήρας", phone:"23300740"},
+  ],
+};
+
+const FUEL = {
+  Limassol:[
+    {brand:"Petrolina", area:"Zakaki", lat:34.6794,lng:33.0086, u95:1.446,u98:1.517,diesel:1.491},
+    {brand:"Petrolina", area:"Ipsonas", lat:34.6991,lng:33.0015, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"Petrolina", area:"Polemidia", lat:34.6922,lng:33.0279, u95:1.455,u98:1.526,diesel:1.5},
+    {brand:"Petrolina", area:"Kato Polemidia", lat:34.6635,lng:33.0407, u95:1.46,u98:1.531,diesel:1.505},
+    {brand:"Petrolina", area:"Agios Athanasios", lat:34.6622,lng:33.034, u95:1.464,u98:1.535,diesel:1.509},
+    {brand:"Petrolina", area:"Mesa Geitonia", lat:34.6642,lng:33.0032, u95:1.468,u98:1.539,diesel:1.513},
+    {brand:"EKO", area:"Germasogeia", lat:34.6855,lng:33.0694, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"EKO", area:"Potamos Germasogeias", lat:34.6674,lng:33.0151, u95:1.454,u98:1.525,diesel:1.499},
+    {brand:"EKO", area:"Agia Fyla", lat:34.6976,lng:33.0803, u95:1.459,u98:1.53,diesel:1.504},
+    {brand:"EKO", area:"Linopetra", lat:34.6946,lng:33.0307, u95:1.464,u98:1.535,diesel:1.509},
+    {brand:"EKO", area:"Columbia", lat:34.7186,lng:32.9992, u95:1.468,u98:1.539,diesel:1.513},
+    {brand:"EKO", area:"Tsiflikoudia", lat:34.7115,lng:33.0211, u95:1.472,u98:1.543,diesel:1.517},
+    {brand:"Esso", area:"Omonia", lat:34.6687,lng:33.0056, u95:1.453,u98:1.524,diesel:1.498},
+    {brand:"Esso", area:"Kapsalos", lat:34.6785,lng:33.0685, u95:1.457,u98:1.528,diesel:1.502},
+    {brand:"Esso", area:"Ekali", lat:34.6708,lng:33.0473, u95:1.462,u98:1.533,diesel:1.507},
+    {brand:"Esso", area:"Agios Nikolaos", lat:34.6983,lng:33.0285, u95:1.466,u98:1.537,diesel:1.511},
+    {brand:"Esso", area:"Apostolos Andreas", lat:34.6929,lng:33.0007, u95:1.471,u98:1.542,diesel:1.516},
+    {brand:"Esso", area:"Petrou kai Pavlou", lat:34.6636,lng:33.0135, u95:1.475,u98:1.546,diesel:1.52},
+    {brand:"Esso", area:"Katholiki", lat:34.7008,lng:33.0335, u95:1.48,u98:1.551,diesel:1.525},
+    {brand:"ENI", area:"Panthea", lat:34.6788,lng:33.0477, u95:1.46,u98:1.531,diesel:1.505},
+    {brand:"ENI", area:"Town centre", lat:34.6872,lng:33.022, u95:1.464,u98:1.535,diesel:1.509},
+    {brand:"ENI", area:"Fasouri", lat:34.7077,lng:33.0579, u95:1.469,u98:1.54,diesel:1.514},
+    {brand:"ENI", area:"Trachoni", lat:34.6746,lng:33.0467, u95:1.474,u98:1.545,diesel:1.519},
+    {brand:"Lukoil", area:"Ypsonas East", lat:34.6915,lng:33.0738, u95:1.462,u98:1.533,diesel:1.507},
+    {brand:"Lukoil", area:"Mouttagiaka", lat:34.7038,lng:33.0209, u95:1.466,u98:1.537,diesel:1.511},
+    {brand:"Lukoil", area:"Zakaki", lat:34.7188,lng:33.0056, u95:1.471,u98:1.542,diesel:1.516},
+    {brand:"Lukoil", area:"Ipsonas", lat:34.6851,lng:33.0631, u95:1.476,u98:1.547,diesel:1.521},
+    {brand:"Staroil", area:"Polemidia", lat:34.6691,lng:33.039, u95:1.456,u98:1.527,diesel:1.501},
+    {brand:"Staroil", area:"Kato Polemidia", lat:34.6624,lng:33.0551, u95:1.46,u98:1.531,diesel:1.505},
+    {brand:"Staroil", area:"Agios Athanasios", lat:34.7059,lng:33.0466, u95:1.465,u98:1.536,diesel:1.51},
+    {brand:"Staroil", area:"Mesa Geitonia", lat:34.7125,lng:33.0232, u95:1.47,u98:1.541,diesel:1.515},
+  ],
+  Nicosia:[
+    {brand:"Petrolina", area:"Strovolos", lat:35.1817,lng:33.3685, u95:1.446,u98:1.517,diesel:1.491},
+    {brand:"Petrolina", area:"Engomi", lat:35.1748,lng:33.3561, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"Petrolina", area:"Aglandjia", lat:35.1904,lng:33.4, u95:1.455,u98:1.526,diesel:1.5},
+    {brand:"Petrolina", area:"Latsia", lat:35.1684,lng:33.3748, u95:1.46,u98:1.531,diesel:1.505},
+    {brand:"EKO", area:"Lakatamia", lat:35.1436,lng:33.3781, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"EKO", area:"Dasoupolis", lat:35.1788,lng:33.4044, u95:1.454,u98:1.525,diesel:1.499},
+    {brand:"EKO", area:"Acropolis", lat:35.1893,lng:33.3406, u95:1.459,u98:1.53,diesel:1.504},
+    {brand:"EKO", area:"Pallouriotissa", lat:35.1631,lng:33.3752, u95:1.464,u98:1.535,diesel:1.509},
+    {brand:"Esso", area:"Kaimakli", lat:35.1414,lng:33.3566, u95:1.453,u98:1.524,diesel:1.498},
+    {brand:"Esso", area:"Dali", lat:35.1501,lng:33.3255, u95:1.457,u98:1.528,diesel:1.502},
+    {brand:"Esso", area:"Geri", lat:35.1435,lng:33.3841, u95:1.462,u98:1.533,diesel:1.507},
+    {brand:"Esso", area:"Makedonitissa", lat:35.1478,lng:33.3373, u95:1.466,u98:1.537,diesel:1.511},
+    {brand:"P.E.C.", area:"Anthoupolis", lat:35.1635,lng:33.3934, u95:1.459,u98:1.53,diesel:1.504},
+    {brand:"P.E.C.", area:"Egkomi", lat:35.1448,lng:33.3554, u95:1.463,u98:1.534,diesel:1.508},
+    {brand:"P.E.C.", area:"Strovolos", lat:35.173,lng:33.3945, u95:1.468,u98:1.539,diesel:1.513},
+    {brand:"ENI", area:"Engomi", lat:35.1892,lng:33.3928, u95:1.46,u98:1.531,diesel:1.505},
+    {brand:"ENI", area:"Aglandjia", lat:35.1567,lng:33.3524, u95:1.464,u98:1.535,diesel:1.509},
+  ],
+  Larnaca:[
+    {brand:"Petrolina", area:"Drosia", lat:34.9095,lng:33.6566, u95:1.446,u98:1.517,diesel:1.491},
+    {brand:"Petrolina", area:"Livadia", lat:34.9455,lng:33.5906, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"Petrolina", area:"Aradippou", lat:34.8986,lng:33.5979, u95:1.455,u98:1.526,diesel:1.5},
+    {brand:"EKO", area:"Kamares", lat:34.902,lng:33.6206, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"EKO", area:"Oroklini", lat:34.9233,lng:33.6006, u95:1.454,u98:1.525,diesel:1.499},
+    {brand:"EKO", area:"Finikoudes", lat:34.8882,lng:33.6147, u95:1.459,u98:1.53,diesel:1.504},
+    {brand:"Esso", area:"Skala", lat:34.9102,lng:33.628, u95:1.453,u98:1.524,diesel:1.498},
+    {brand:"Esso", area:"Kiti", lat:34.9452,lng:33.6391, u95:1.457,u98:1.528,diesel:1.502},
+    {brand:"Esso", area:"Pervolia", lat:34.9189,lng:33.6326, u95:1.462,u98:1.533,diesel:1.507},
+    {brand:"Fill'n Go", area:"Drosia", lat:34.9286,lng:33.5819, u95:1.448,u98:1.519,diesel:1.493},
+    {brand:"Fill'n Go", area:"Livadia", lat:34.942,lng:33.6472, u95:1.452,u98:1.523,diesel:1.497},
+  ],
+  Paphos:[
+    {brand:"EKO", area:"Kato Paphos", lat:34.7945,lng:32.4568, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"EKO", area:"Geroskipou", lat:34.7655,lng:32.4209, u95:1.454,u98:1.525,diesel:1.499},
+    {brand:"EKO", area:"Paphos centre", lat:34.7482,lng:32.4421, u95:1.459,u98:1.53,diesel:1.504},
+    {brand:"Esso", area:"Chloraka", lat:34.7457,lng:32.3911, u95:1.453,u98:1.524,diesel:1.498},
+    {brand:"Esso", area:"Mesogi", lat:34.7545,lng:32.3996, u95:1.457,u98:1.528,diesel:1.502},
+    {brand:"Esso", area:"Anavargos", lat:34.7624,lng:32.3897, u95:1.462,u98:1.533,diesel:1.507},
+    {brand:"Petrolina", area:"Kato Paphos", lat:34.742,lng:32.3986, u95:1.446,u98:1.517,diesel:1.491},
+    {brand:"Petrolina", area:"Geroskipou", lat:34.7481,lng:32.4177, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"Synergas", area:"Paphos centre", lat:34.7435,lng:32.4637, u95:1.463,u98:1.534,diesel:1.508},
+    {brand:"Synergas", area:"Chloraka", lat:34.7788,lng:32.3984, u95:1.467,u98:1.538,diesel:1.512},
+  ],
+  Famagusta:[
+    {brand:"Petrolina", area:"Paralimni", lat:35.0051,lng:33.9563, u95:1.446,u98:1.517,diesel:1.491},
+    {brand:"Petrolina", area:"Deryneia", lat:35.0118,lng:33.9361, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"Petrolina", area:"Sotira", lat:35.0409,lng:34.0144, u95:1.455,u98:1.526,diesel:1.5},
+    {brand:"Esso", area:"Ayia Napa", lat:35.018,lng:33.9685, u95:1.453,u98:1.524,diesel:1.498},
+    {brand:"Esso", area:"Frenaros", lat:34.9952,lng:33.9342, u95:1.457,u98:1.528,diesel:1.502},
+    {brand:"EKO", area:"Liopetri", lat:35.0106,lng:33.9488, u95:1.45,u98:1.521,diesel:1.495},
+    {brand:"EKO", area:"Paralimni", lat:35.0397,lng:33.9395, u95:1.454,u98:1.525,diesel:1.499},
+    {brand:"ENI", area:"Deryneia", lat:34.9914,lng:34.0106, u95:1.46,u98:1.531,diesel:1.505},
+    {brand:"ENI", area:"Sotira", lat:35.0217,lng:33.9382, u95:1.464,u98:1.535,diesel:1.509},
+  ],
+};
+
+const FUEL_LABEL = {u95:"Unleaded 95", u98:"Unleaded 98", diesel:"Diesel"};
+
+/* ===== GROCERIES (e-Kalathi style) — swap for the real basket feed ===== */
+const STORES = ["AlphaMega","Sklavenitis","Lidl","Metro","Papantoniou","Athienitis","Poplife"];
+/* which chains actually operate where — Athienitis is Nicosia-only, Papantoniou is Paphos */
+const STORES_BY_DISTRICT = {
+  Nicosia:  ["AlphaMega","Sklavenitis","Lidl","Metro","Athienitis","Poplife"],
+  Limassol: ["AlphaMega","Sklavenitis","Lidl","Metro","Poplife"],
+  Larnaca:  ["AlphaMega","Sklavenitis","Lidl","Metro","Poplife"],
+  Paphos:   ["AlphaMega","Lidl","Metro","Papantoniou","Poplife"],
+  Famagusta:["AlphaMega","Sklavenitis","Lidl","Metro","Poplife"],
+};
+const PRODUCTS = [
+  {id:"milk",    name:"Fresh milk",        unit:"1.5 L",  cat:"Dairy",     p:{AlphaMega:1.95,Sklavenitis:1.89,Lidl:1.79,Metro:1.99,Papantoniou:1.92,Athienitis:1.75,Poplife:1.76}},
+  {id:"halloumi",name:"Halloumi",          unit:"250 g",  cat:"Dairy",     p:{AlphaMega:3.45,Sklavenitis:3.29,Lidl:2.99,Metro:3.39,Papantoniou:2.95,Athienitis:2.89,Poplife:2.96}},
+  {id:"yogurt",  name:"Strained yogurt",   unit:"500 g",  cat:"Dairy",     p:{AlphaMega:1.79,Sklavenitis:1.69,Lidl:1.55,Metro:1.75,Papantoniou:1.72,Athienitis:1.52,Poplife:1.53}},
+  {id:"eggs",    name:"Eggs (medium)",     unit:"6 pk",   cat:"Dairy",     p:{AlphaMega:1.65,Sklavenitis:1.59,Lidl:1.49,Metro:1.69,Papantoniou:1.62,Athienitis:1.45,Poplife:1.46}},
+  {id:"bread",   name:"Sliced bread",      unit:"600 g",  cat:"Bakery",    p:{AlphaMega:1.45,Sklavenitis:1.39,Lidl:1.19,Metro:1.49,Papantoniou:1.42,Athienitis:1.15,Poplife:1.16}},
+  {id:"pasta",   name:"Spaghetti",         unit:"500 g",  cat:"Pantry",    p:{AlphaMega:0.95,Sklavenitis:0.89,Lidl:0.69,Metro:0.99,Papantoniou:0.92,Athienitis:0.65,Poplife:0.66}},
+  {id:"rice",    name:"Rice",              unit:"1 kg",   cat:"Pantry",    p:{AlphaMega:2.45,Sklavenitis:2.39,Lidl:1.99,Metro:2.49,Papantoniou:2.42,Athienitis:1.95,Poplife:1.96}},
+  {id:"sugar",   name:"Sugar",             unit:"1 kg",   cat:"Pantry",    p:{AlphaMega:1.25,Sklavenitis:1.19,Lidl:1.09,Metro:1.29,Papantoniou:1.22,Athienitis:1.05,Poplife:1.06}},
+  {id:"oil",     name:"Olive oil",         unit:"1 L",    cat:"Pantry",    p:{AlphaMega:8.95,Sklavenitis:7.89,Lidl:7.99,Metro:9.20,Papantoniou:8.75,Athienitis:7.79,Poplife:7.96}},
+  {id:"coffee",  name:"Ground coffee",     unit:"200 g",  cat:"Pantry",    p:{AlphaMega:2.69,Sklavenitis:3.05,Lidl:2.79,Metro:3.25,Papantoniou:3.10,Athienitis:2.75,Poplife:2.76}},
+  {id:"water",   name:"Bottled water",     unit:"6×1.5 L",cat:"Drinks",    p:{AlphaMega:1.99,Sklavenitis:1.89,Lidl:1.69,Metro:2.05,Papantoniou:1.95,Athienitis:1.65,Poplife:1.66}},
+  {id:"soda",    name:"Soft drink",        unit:"1.5 L",  cat:"Drinks",    p:{AlphaMega:1.55,Sklavenitis:1.49,Lidl:1.35,Metro:1.59,Papantoniou:1.52,Athienitis:1.39,Poplife:1.32}},
+  {id:"potato",  name:"Potatoes",          unit:"2 kg",   cat:"Produce",   p:{AlphaMega:2.20,Sklavenitis:2.10,Lidl:1.89,Metro:2.25,Papantoniou:2.15,Athienitis:1.85,Poplife:1.86}},
+  {id:"tomato",  name:"Tomatoes",          unit:"1 kg",   cat:"Produce",   p:{AlphaMega:1.85,Sklavenitis:1.79,Lidl:1.69,Metro:1.89,Papantoniou:1.82,Athienitis:1.65,Poplife:1.66}},
+  {id:"banana",  name:"Bananas",           unit:"1 kg",   cat:"Produce",   p:{AlphaMega:1.45,Sklavenitis:1.39,Lidl:1.29,Metro:1.49,Papantoniou:1.42,Athienitis:1.25,Poplife:1.26}},
+  {id:"toilet",  name:"Toilet paper",      unit:"8 pk",   cat:"Household",  p:{AlphaMega:3.95,Sklavenitis:3.79,Lidl:3.29,Metro:3.99,Papantoniou:3.85,Athienitis:3.19,Poplife:3.26}},
+  {id:"dish",    name:"Dish soap",         unit:"750 ml", cat:"Household",  p:{AlphaMega:2.15,Sklavenitis:2.05,Lidl:1.79,Metro:2.19,Papantoniou:2.10,Athienitis:1.75,Poplife:1.76}},
+  {id:"chicken", name:"Chicken fillet",    unit:"1 kg",   cat:"Meat",      p:{AlphaMega:6.95,Sklavenitis:6.79,Lidl:6.49,Metro:6.39,Papantoniou:6.85,Athienitis:6.45,Poplife:6.46}},
+];
+const PRESETS = {
+  Essentials:    {milk:1,bread:1,halloumi:1,eggs:1,coffee:1},
+  "Family weekly":{milk:2,bread:2,halloumi:2,eggs:2,chicken:1,potato:1,tomato:1,banana:1,pasta:2,rice:1,toilet:1,water:1,yogurt:2,soda:1},
+  Breakfast:     {milk:1,eggs:1,bread:1,coffee:1,yogurt:1,banana:1},
+};
+const PRESET_NAMES = ["Essentials","Family weekly","Breakfast","Clear"];
+
+/* ---------- state ---------- */
+let district = "Limassol";
+let fuelType = "u95";
+let brand = "All";
+let fuelExpanded = false;
+let basket = {...PRESETS.Essentials};   // productId -> quantity
+
+/* brand list built from the data, so it stays correct when the real feed lands */
+function computeBrands(){ return ["All", ...[...new Set(Object.values(FUEL).flat().map(s=>s.brand))].sort()]; }
+let BRANDS = computeBrands();
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const mapsUrl = (lat,lng,q)=>`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${encodeURIComponent(q||"")}`;
+const mapsSearch = q => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q + ", Cyprus")}`;
+
+/* overnight (διανυκτερεύοντα) pharmacies cover the night through ~08:00 */
+function nightStatus(){
+  const h = new Date().getHours();
+  if(h >= 19 || h < 8) return {cls:"open", txt:"Open now"};
+  return {cls:"soon", txt:"On duty tonight"};
+}
+
+/* ---------- location & distance ---------- */
+const CENTROID = {
+  Nicosia:[35.170,33.360], Limassol:[34.707,33.022], Larnaca:[34.916,33.624],
+  Paphos:[34.776,32.424], Famagusta:[35.038,33.973]
+};
+const KM_PENALTY = 0.015;   // €/L added per km of distance when ranking "best value" (tunable)
+let userLoc = null;         // {lat, lng, approx}
+let fuelSort = "price";     // price | value | near
+
+function haversine(la1,lo1,la2,lo2){
+  const R=6371, r=x=>x*Math.PI/180;
+  const dLa=r(la2-la1), dLo=r(lo2-lo1);
+  const a=Math.sin(dLa/2)**2 + Math.cos(r(la1))*Math.cos(r(la2))*Math.sin(dLo/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+const fmtKm = km => km<1 ? Math.round(km*1000)+" m" : km.toFixed(1)+" km";
+
+const PIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+function updateLoc(state){
+  const el = $("#locStatus");
+  if(state==="locating"){ el.className="locbar show"; el.innerHTML = PIN+"Finding your location…"; return; }
+  if(!userLoc){ el.className="locbar"; el.innerHTML=""; return; }
+  el.className = "locbar show"+(userLoc.approx?" approx":"");
+  el.innerHTML = PIN + (userLoc.approx ? `Approx · ${district} centre · tap to retry` : "Using your location");
+}
+function setApprox(){ const c=CENTROID[district]||CENTROID.Limassol; userLoc={lat:c[0],lng:c[1],approx:true}; updateLoc(); }
+function ensureLocation(){
+  if(userLoc){ renderFuel(); return; }
+  updateLoc("locating");
+  if(!navigator.geolocation){ setApprox(); renderFuel(); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos=>{ userLoc={lat:pos.coords.latitude, lng:pos.coords.longitude, approx:false}; updateLoc(); renderFuel(); },
+    ()=>{ setApprox(); renderFuel(); },   // denied / blocked / timeout → fall back to district centre
+    {enableHighAccuracy:true, timeout:8000, maximumAge:300000}
+  );
+}
+
+/* ---------- render: pharmacies ---------- */
+function renderRx(){
+  const list = PHARMACIES[district] || [];
+  $("#rxList").innerHTML = list.map(p=>{
+    const st = nightStatus();
+    const sub = p.note ? `${p.area}<span class="dot">•</span>${p.note}` : p.area;
+    return `<article class="card">
+      <div class="card__top">
+        <div>
+          <div class="name">${p.name}</div>
+          <div class="area">${sub}</div>
+        </div>
+        <span class="badge badge--${st.cls}"><span class="pip"></span>${st.txt}</span>
+      </div>
+      <div class="meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>${p.address}</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>Overnight</span>
+      </div>
+      <div class="actions">
+        <a class="btn btn--call" href="tel:+357${p.phone}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h3l1.5 5-2 1.5a12 12 0 0 0 6 6l1.5-2 5 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg>Call
+        </a>
+        <a class="btn" target="_blank" rel="noopener" href="${mapsSearch(p.address + ' ' + p.area)}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-8-8 18-2-8-8-2Z"/></svg>Directions
+        </a>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+/* ---------- render: brand chips ---------- */
+function renderBrandChips(){
+  $("#brandChips").innerHTML = BRANDS.map(b=>
+    `<button class="chip${b===brand?' is-on':''}" data-brand="${b}">${b}</button>`).join("");
+}
+
+/* ---------- render: fuel ---------- */
+function renderFuel(){
+  let stations = [...(FUEL[district]||[])];
+  if(brand!=="All") stations = stations.filter(s=>s.brand===brand);
+
+  // distance from origin (real GPS, or district-centre fallback)
+  stations.forEach(s => s._d = userLoc ? haversine(userLoc.lat,userLoc.lng,s.lat,s.lng) : null);
+
+  // can only rank by distance once we have an origin
+  const mode = (!userLoc && fuelSort!=="price") ? "price" : fuelSort;
+  stations.sort((a,b)=>{
+    if(mode==="near")  return (a._d??1e9)-(b._d??1e9);
+    if(mode==="value") return (a[fuelType]+KM_PENALTY*(a._d??0))-(b[fuelType]+KM_PENALTY*(b._d??0));
+    return a[fuelType]-b[fuelType];
+  });
+
+  $("#totemEyebrow").textContent =
+    mode==="near" ? "Nearest to you" : mode==="value" ? "Best value near you" : "Cheapest right now";
+
+  const best = stations[0];
+  const totem = $("#totem");
+
+  if(!best){
+    totem.innerHTML = `
+      <div class="totem__label">${FUEL_LABEL[fuelType]} · ${district}</div>
+      <div class="totem__where" style="margin-top:12px">No ${brand} stations in ${district}</div>
+      <div class="totem__sub">Try another brand, or switch back to All.</div>`;
+    $("#fuelList").innerHTML = ""; $("#fuelMore").innerHTML = "";
+    return;
+  }
+
+  const [int,dec] = best[fuelType].toFixed(3).split(".");
+  const tag  = brand==="All" ? district : `${brand} · ${district}`;
+  const qual = mode==="near" ? "closest" : mode==="value" ? "best value" : "cheapest";
+  const bdist = best._d!=null ? ` · ${fmtKm(best._d)} away` : "";
+  totem.innerHTML = `
+    <div class="totem__label">${FUEL_LABEL[fuelType]} · ${tag}</div>
+    <div class="totem__price">
+      <span class="totem__cur">€</span>
+      <span class="totem__big">${int}.${dec}</span>
+      <span class="totem__unit">/ litre</span>
+    </div>
+    <div class="totem__where">${best.brand}</div>
+    <div class="totem__sub">${best.area}${bdist} · ${qual} of ${stations.length}</div>
+    <button class="totem__go" aria-label="Directions to ${best.brand}"
+      onclick="window.open('${mapsUrl(best.lat,best.lng,best.brand)}','_blank')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 11 18-8-8 18-2-8-8-2Z"/></svg>
+    </button>`;
+
+  const rest = stations.slice(1);
+  const VISIBLE = (brand === "All") ? 3 : 5;
+  const shown = fuelExpanded ? rest : rest.slice(0, VISIBLE);
+
+  $("#fuelList").innerHTML = shown.map((s,i)=>{
+    const d = s._d!=null ? `<span class="dot">•</span>${fmtKm(s._d)}` : "";
+    return `<article class="card">
+      <div class="row">
+        <span class="rank">${i+2}</span>
+        <div style="flex:1">
+          <div class="name" style="font-size:15px">${s.brand}</div>
+          <div class="area">${s.area}${d}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="price">€${s[fuelType].toFixed(3)}<small>/L</small></div>
+        </div>
+        <a class="btn" style="flex:none;width:44px;padding:11px 0" target="_blank" rel="noopener"
+           aria-label="Directions" href="${mapsUrl(s.lat,s.lng,s.brand)}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 11 18-8-8 18-2-8-8-2Z"/></svg>
+        </a>
+      </div>
+    </article>`;
+  }).join("");
+
+  const hidden = rest.length - VISIBLE;
+  $("#fuelMore").innerHTML = (hidden > 0)
+    ? `<button class="morebtn${fuelExpanded?" open":""}" data-act="more">
+        ${fuelExpanded ? "Show fewer" : `Show ${hidden} more station${hidden>1?"s":""}`}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+      </button>`
+    : "";
+}
+
+/* ---------- groceries ---------- */
+const storesHere = () => STORES_BY_DISTRICT[district] || STORES;
+const basketCount = () => PRODUCTS.reduce((n,p)=> n + (basket[p.id]||0), 0);
+const storeTotal  = s => PRODUCTS.reduce((sum,p)=> sum + (basket[p.id]||0)*p.p[s], 0);
+const cheapestStoreFor = p => storesHere().reduce((best,s)=> p.p[s] < p.p[best] ? s : best, storesHere()[0]);
+
+function renderPresetChips(){
+  $("#basketPresets").innerHTML = PRESET_NAMES.map(n=>`<button class="chip" data-preset="${n}">${n}</button>`).join("");
+}
+
+function renderProducts(){
+  const cats = [...new Set(PRODUCTS.map(p=>p.cat))];
+  $("#productList").innerHTML = cats.map(c=>{
+    const rows = PRODUCTS.filter(p=>p.cat===c).map(p=>{
+      const qty = basket[p.id]||0, cs = cheapestStoreFor(p);
+      return `<div class="prow ${qty?'':'off'}">
+        <div class="prow__info">
+          <div class="prow__name">${p.name} <span>· ${p.unit}</span></div>
+          <div class="prow__meta">cheapest <b>${cs}</b> €${p.p[cs].toFixed(2)}</div>
+        </div>
+        <div class="stepper">
+          <button data-id="${p.id}" data-d="-1" aria-label="Less ${p.name}">−</button>
+          <span class="stepper__qty">${qty}</span>
+          <button data-id="${p.id}" data-d="1" aria-label="More ${p.name}">+</button>
+        </div>
+      </div>`;
+    }).join("");
+    return `<div class="catlabel">${c}</div>${rows}`;
+  }).join("");
+}
+
+/* ---------- delivery hand-off (Wolt affiliate-ready + Foody deep link) ---------- */
+const WOLT_CITY = { Nicosia:"nicosia", Limassol:"limassol", Larnaca:"larnaca", Famagusta:"ammochostos" }; // Wolt has no Paphos
+// After you join Wolt's affiliate program (TradeDoubler, Cyprus), paste your tracking
+// wrapper here using {url} as the placeholder for the encoded destination. Empty = plain link.
+const WOLT_AFFILIATE_TEMPLATE = "";   // e.g. "https://clk.tradedoubler.com/click?p=PROG&a=AFFID&url={url}"
+
+function woltUrl(){
+  const city = WOLT_CITY[district];
+  const target = city ? `https://wolt.com/en/cyp/${city}/category/supermarkets` : `https://wolt.com/en/cyp`;
+  return WOLT_AFFILIATE_TEMPLATE ? WOLT_AFFILIATE_TEMPLATE.replace("{url}", encodeURIComponent(target)) : target;
+}
+const foodyUrl = () => "https://www.foody.com.cy/";
+
+function setDeliverLinks(){
+  $("#woltBtn").href  = woltUrl();
+  $("#foodyBtn").href = foodyUrl();
+  const noWolt = !WOLT_CITY[district];
+  $("#deliverHint").textContent = noWolt
+    ? "Foody covers Paphos; Wolt opens its Cyprus store list. Paste your list to add items fast."
+    : "Opens your area's supermarkets — paste your list to add items fast.";
+}
+
+function renderShop(){
+  setDeliverLinks();
+  const items = basketCount();
+  const hero = $("#basketHero");
+  if(items === 0){
+    hero.innerHTML = `<div class="gtotem__label">Cheapest basket</div>
+      <div class="gtotem__store" style="margin-top:12px">Your basket is empty</div>
+      <div class="gtotem__save" style="color:var(--ink-dim)">Tap a quick basket above, or add items below.</div>`;
+    $("#storeList").innerHTML = "";
+    renderProducts();
+    return;
+  }
+  const totals = storesHere().map(s=>({store:s, total:storeTotal(s)})).sort((a,b)=>a.total-b.total);
+  const best = totals[0], worst = totals[totals.length-1];
+  const [int,dec] = best.total.toFixed(2).split(".");
+  hero.innerHTML = `
+    <div class="gtotem__label">Cheapest in ${district} · ${items} item${items>1?"s":""}</div>
+    <div class="gtotem__row">
+      <div class="gtotem__store">${best.store}</div>
+      <div class="gtotem__price"><span class="gtotem__cur">€</span><span class="gtotem__big">${int}.${dec}</span></div>
+    </div>
+    <div class="gtotem__save">Save <b>€${(worst.total-best.total).toFixed(2)}</b> vs ${worst.store} (priciest)</div>`;
+  $("#storeList").innerHTML = totals.map((t,i)=>`
+    <div class="store ${i===0?'win':''}">
+      <span class="store__rank">${i+1}</span>
+      <span class="store__name">${t.store}</span>
+      <span class="store__delta">${i===0?'cheapest':'+€'+(t.total-best.total).toFixed(2)}</span>
+      <span class="store__total">€${t.total.toFixed(2)}</span>
+    </div>`).join("");
+  renderProducts();
+}
+
+
+/* ---------- air quality (live via Open-Meteo, no API key needed) ---------- */
+const airData = {};        // district -> {aqi,pm10,pm25,uv,dust} | "error"
+let airLoading = false;
+
+const aqiBand = v =>
+  v<=20 ? {t:"Good",           c:"#4FB286"} :
+  v<=40 ? {t:"Fair",           c:"#9DC65B"} :
+  v<=60 ? {t:"Moderate",       c:"#F0C24E"} :
+  v<=80 ? {t:"Poor",           c:"#E8893E"} :
+  v<=100? {t:"Very poor",      c:"#D9534F"} :
+          {t:"Extremely poor", c:"#9B4DCA"};
+
+const uvBand = v =>
+  v<3  ? {t:"Low",       c:"#4FB286", a:"No protection needed."} :
+  v<6  ? {t:"Moderate",  c:"#F0C24E", a:"Hat and sunscreen if you're out a while."} :
+  v<8  ? {t:"High",      c:"#E8893E", a:"Sunscreen, hat, seek shade around midday."} :
+  v<11 ? {t:"Very high", c:"#D9534F", a:"Avoid the sun 11:00–16:00; cover up."} :
+         {t:"Extreme",   c:"#9B4DCA", a:"Stay inside over midday if you can."};
+
+const airCoords = () =>
+  (userLoc && !userLoc.approx) ? [userLoc.lat, userLoc.lng] : (CENTROID[district] || CENTROID.Limassol);
+
+async function loadAir(force){
+  if(airData[district] && !force){ renderAir(); return; }
+  airLoading = true; renderAir();
+  const [lat,lng] = airCoords();
+  const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lng}`
+            + `&current=european_aqi,pm10,pm2_5,uv_index,dust&timezone=auto`;
+  try{
+    const r = await fetch(url);
+    if(!r.ok) throw 0;
+    const c = (await r.json()).current;
+    airData[district] = { aqi:Math.round(c.european_aqi), pm10:Math.round(c.pm10),
+      pm25:Math.round(c.pm2_5), uv:+(c.uv_index||0), dust:Math.round(c.dust||0) };
+  }catch(_){ airData[district] = "error"; }
+  airLoading = false; renderAir(); renderTicker();
+}
+
+function renderAir(){
+  const hero=$("#airHero"), parts=$("#airParticles"), uvWrap=$("#airUV");
+  const d = airData[district];
+
+  if(airLoading && !d){
+    hero.innerHTML = `<div class="airhero__label">Air quality · ${district}</div>
+      <div class="airhero__sub" style="margin-top:14px">Checking the air…</div>`;
+    parts.innerHTML = ""; uvWrap.innerHTML = ""; return;
+  }
+  if(d === "error"){
+    hero.innerHTML = `<div class="airhero__label">Air quality · ${district}</div>
+      <div class="airhero__sub" style="margin-top:14px">Couldn't reach the air service — tap to retry.</div>`;
+    parts.innerHTML = ""; uvWrap.innerHTML = ""; return;
+  }
+
+  const b = aqiBand(d.aqi);
+  hero.innerHTML = `
+    <div class="airhero__label">European AQI · ${district}</div>
+    <div class="airhero__row">
+      <div class="airhero__aqi" style="color:${b.c}">${d.aqi}</div>
+      <div class="airhero__band" style="color:${b.c}">${b.t}</div>
+    </div>
+    <div class="airhero__sub"><span class="airdot" style="background:${b.c}"></span>Live, from PM2.5, PM10, ozone &amp; NO₂</div>`;
+
+  const dusty = d.pm10 > 50;
+  parts.innerHTML = `
+    <div class="metric">
+      <div class="metric__k">PM10 · dust</div>
+      <div class="metric__v">${d.pm10}<span class="metric__u">µg/m³</span></div>
+      <div class="metric__note" style="color:${dusty?'#E8893E':'var(--ink-dim)'}">
+        ${dusty ? "Saharan dust — shut windows, ease off outdoor exercise." : "Low — clear of dust."}</div>
+    </div>
+    <div class="metric">
+      <div class="metric__k">PM2.5 · fine</div>
+      <div class="metric__v">${d.pm25}<span class="metric__u">µg/m³</span></div>
+      <div class="metric__note" style="color:${d.pm25>25?'#E8893E':'var(--ink-dim)'}">
+        ${d.pm25>25 ? "Elevated — sensitive groups take care." : "Within a healthy range."}</div>
+    </div>`;
+
+  const uv = uvBand(d.uv), pct = Math.min(d.uv,12)/12*100;
+  uvWrap.innerHTML = `
+    <div class="metric metric--wide">
+      <div class="metric__k">UV index <span style="color:${uv.c}">· ${uv.t}</span></div>
+      <div class="metric__v">${d.uv.toFixed(1)}</div>
+      <div class="uvbar"><div class="uvbar__pin" style="margin-left:calc(${pct}% - 6px)"></div></div>
+      <div class="metric__note" style="color:var(--ink-dim); margin-top:12px">${uv.a}</div>
+    </div>`;
+}
+
+function renderTicker(){
+  const onDuty = (PHARMACIES[district]||[]).length;
+  const cheapest = [...(FUEL[district]||[])].sort((a,b)=>a.u95-b.u95)[0];
+  const view = $(".tab.is-on").dataset.tab;
+  let t;
+  if(view==="rx"){
+    t = `<b>${onDuty}</b>&nbsp;${onDuty===1?"pharmacy":"pharmacies"} on duty in <b>${district}</b> tonight`;
+  } else if(view==="fuel"){
+    t = `Cheapest 95 in <b>${district}</b>: <b>€${cheapest?cheapest.u95.toFixed(3):"—"}</b>/L`;
+  } else if(view==="shop"){
+    if(basketCount()===0){ t = `Build a basket to compare stores`; }
+    else { const b = storesHere().map(s=>({s,t:storeTotal(s)})).sort((a,b)=>a.t-b.t)[0];
+           t = `Cheapest basket: <b>€${b.t.toFixed(2)}</b> at <b>${b.s}</b>`; }
+  } else {
+    const d = airData[district];
+    t = (d && d!=="error")
+      ? `Air in <b>${district}</b>: <b>${aqiBand(d.aqi).t}</b> · UV <b>${d.uv.toFixed(0)}</b> (${uvBand(d.uv).t})`
+      : `Tap Air for live dust &amp; UV`;
+  }
+  $("#ticker").innerHTML = `<span class="pulse"></span><span>${t}</span>`;
+}
+
+/* ---------- wire up ---------- */
+function refresh(){ renderRx(); renderBrandChips(); renderFuel(); renderPresetChips(); renderShop(); renderTicker(); }
+
+$("#districtSelect").addEventListener("change", e=>{
+  district = e.target.value; $("#districtName").textContent = district;
+  fuelExpanded = false; refresh();
+  if($(".tab.is-on").dataset.tab==="air") loadAir();
+});
+$("#brandChips").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  brand = c.dataset.brand; fuelExpanded = false;
+  document.querySelectorAll("#brandChips .chip").forEach(x=>x.classList.toggle("is-on", x===c));
+  renderFuel();
+});
+$("#fuelMore").addEventListener("click", e=>{
+  if(!e.target.closest(".morebtn")) return;
+  fuelExpanded = !fuelExpanded; renderFuel();
+});
+$("#fuelSort").addEventListener("change", e=>{
+  fuelSort = e.target.value;
+  $("#sortName").textContent = e.target.selectedOptions[0].text;
+  fuelExpanded = false;
+  if(fuelSort !== "price") ensureLocation();   // value/nearest need an origin
+  renderFuel();
+});
+$("#locStatus").addEventListener("click", ()=>{
+  if(userLoc && userLoc.approx){ userLoc = null; ensureLocation(); }   // retry precise GPS
+});
+$("#fuelSeg").addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  fuelType = b.dataset.fuel; fuelExpanded = false;
+  document.querySelectorAll("#fuelSeg button").forEach(x=>x.classList.toggle("is-on", x===b));
+  renderFuel(); renderTicker();
+});
+$("#basketPresets").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  const n = c.dataset.preset;
+  basket = n==="Clear" ? {} : {...PRESETS[n]};
+  renderShop(); renderTicker();
+});
+$("#productList").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-id]"); if(!b) return;
+  const id = b.dataset.id, d = +b.dataset.d;
+  basket[id] = Math.max(0, (basket[id]||0) + d);
+  if(basket[id]===0) delete basket[id];
+  renderShop(); renderTicker();
+});
+$("#copyList").addEventListener("click", async ()=>{
+  const lines = PRODUCTS.filter(p=>basket[p.id]>0).map(p=>`${basket[p.id]}× ${p.name} (${p.unit})`);
+  const flash = msg => { const b=$("#copyList"), o="Copy my list"; b.textContent=msg; setTimeout(()=>b.textContent=o,1500); };
+  if(!lines.length){ flash("Your basket is empty"); return; }
+  const text = `Tóra shopping list — ${basketCount()} item${basketCount()>1?"s":""}\n` + lines.join("\n");
+  try{ await navigator.clipboard.writeText(text); flash("Copied ✓"); }
+  catch(_){ flash("Couldn't copy — long-press to select"); }
+});
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click", ()=>{
+    const id = tab.dataset.tab;
+    document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("is-on", t===tab));
+    $("#view-rx").classList.toggle("is-active", id==="rx");
+    $("#view-fuel").classList.toggle("is-active", id==="fuel");
+    $("#view-shop").classList.toggle("is-active", id==="shop");
+    $("#view-air").classList.toggle("is-active", id==="air");
+    if(id==="air") loadAir();          // fetch on first open (and reuse cache after)
+    renderTicker();
+  });
+});
+$("#airHero").addEventListener("click", ()=> loadAir(true));
+$("#airHero").addEventListener("keydown", e=>{
+  if(e.key==="Enter" || e.key===" "){ e.preventDefault(); loadAir(true); }
+});
+
+refresh();
+
+/* ===========================================================================
+   LIVE DATA FEEDS
+   Each tab can refresh from a hosted JSON file (GitHub raw / Pages) with zero
+   app changes. Leave a URL empty → that tab keeps its bundled data.
+   When a feed loads, only that section re-renders. Offline/blocked → fallback.
+   =========================================================================== */
+const PHARMACY_FEED_URL  = "https://raw.githubusercontent.com/toraapp/tora-data/main/data/pharmacies.json";
+const FUEL_FEED_URL      = "https://raw.githubusercontent.com/toraapp/tora-data/main/data/fuel.json";
+const GROCERIES_FEED_URL = "https://raw.githubusercontent.com/toraapp/tora-data/main/data/groceries.json";
+
+async function getJSON(url){
+  if(!url) return null;
+  try{
+    const res = await fetch(url, {cache:"no-store"});
+    return res.ok ? await res.json() : null;
+  }catch(_){ return null; }            // offline or blocked → caller keeps bundled data
+}
+
+async function loadLivePharmacies(){
+  const data = await getJSON(PHARMACY_FEED_URL);
+  if(!data || !data.pharmacies) return;
+  Object.keys(PHARMACIES).forEach(k => delete PHARMACIES[k]);
+  Object.assign(PHARMACIES, data.pharmacies);
+  if(data.forDate){
+    const d = new Date(data.forDate + "T00:00:00");
+    const label = d.toLocaleDateString("en-GB", {weekday:"short", day:"numeric", month:"short"});
+    const el = $("#rxDate");
+    if(el) el.textContent = data.isToday === false ? `${label} · latest available` : label;
+  }
+  renderRx(); renderTicker();
+}
+
+async function loadLiveFuel(){
+  const data = await getJSON(FUEL_FEED_URL);
+  if(!data || !data.fuel) return;
+  Object.keys(FUEL).forEach(k => delete FUEL[k]);
+  Object.assign(FUEL, data.fuel);
+  BRANDS = computeBrands();            // brand chips follow the live station list
+  renderBrandChips(); renderFuel(); renderTicker();
+}
+
+async function loadLiveGroceries(){
+  const data = await getJSON(GROCERIES_FEED_URL);
+  if(!data || !data.products || !data.storesByDistrict) return;
+  Object.keys(STORES_BY_DISTRICT).forEach(k => delete STORES_BY_DISTRICT[k]);
+  Object.assign(STORES_BY_DISTRICT, data.storesByDistrict);
+  STORES.length = 0;
+  STORES.push(...[...new Set(Object.values(STORES_BY_DISTRICT).flat())]);
+  PRODUCTS.length = 0;
+  PRODUCTS.push(...data.products);
+  renderPresetChips(); renderShop(); renderTicker();
+}
+
+loadLivePharmacies();
+loadLiveFuel();
+loadLiveGroceries();
+</script>
+</body>
+</html>
