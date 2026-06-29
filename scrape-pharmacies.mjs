@@ -53,36 +53,49 @@ export function findLatestArticleUrl(categoryHtml) {
   return url;
 }
 
+// a district "label" is a short standalone heading/bold like "Λευκωσία"
+const districtFromLabel = txt => {
+  const t = key(txt).replace(/[\s:·.\-]+$/, "").trim();
+  return DISTRICT_LOOKUP[t] || null;
+};
+
+// find a table's district by scanning the elements that precede it (and its wrappers)
+function districtForTable($, table) {
+  let node = $(table);
+  for (let up = 0; up < 6 && node.length; up++) {
+    let sib = node.prev();
+    for (let i = 0; i < 10 && sib.length; i++) {
+      const d = districtFromLabel(sib.text());
+      if (d) return d;
+      sib = sib.prev();
+    }
+    node = node.parent();
+  }
+  return null;
+}
+
 // --- turn one article into the district -> pharmacies map ------------------
+// Each district has a bold label (e.g. **Λεμεσός**) followed by a table whose
+// columns are: surname | first name | street | landmark | area | phone | phone2
 export function parseArticle(html) {
   const $ = load(html);
-  const root = $("article").first().length ? $("article").first()
-             : $("main").first().length    ? $("main").first()
-             : $("body");
-
   const out = { Nicosia: [], Limassol: [], Larnaca: [], Paphos: [], Famagusta: [] };
-  let current = null;
 
-  // walk headings + rows in document order, tracking the current district
-  root.find("h1,h2,h3,h4,h5,h6,strong,b,p,tr").each((_, el) => {
-    const tag = (el.tagName || "").toLowerCase();
+  $("table").each((_, table) => {
+    const district = districtForTable($, table);
+    if (!district || !out[district]) return;
 
-    if (tag === "tr") {
-      if (!current) return;
-      const cells = $(el).find("td").map((__, td) =>
+    $(table).find("tr").each((__, tr) => {
+      const cells = $(tr).find("td").map((i, td) =>
         $(td).text().replace(/\s+/g, " ").trim()).get();
-      if (cells.length < 3) return;                         // not a data row
+      if (cells.length < 3) return;                          // not a data row
       if (HEADER_WORDS.some(w => key(cells.join(" ")).includes(w))) return;
 
       const [surname = "", first = "", street = "", landmark = "", area = ""] = cells;
       const phone = firstPhone(cells.slice(5).join(" ") || cells[cells.length - 1]);
       const name = `${first} ${surname}`.trim();
-      if (!name) return;
-      out[current].push({ name, area, address: street, note: landmark, phone });
-    } else {
-      const d = matchDistrict($(el).text());
-      if (d) current = d;                                   // entered a district section
-    }
+      if (name) out[district].push({ name, area, address: street, note: landmark, phone });
+    });
   });
   return out;
 }
@@ -91,7 +104,14 @@ export function parseArticle(html) {
 const slugDate = url => (url.match(/farmakeia-(.*)-einai-ta-eksis/) || [, ""])[1];
 
 async function get(url) {
-  const r = await fetch(url, { headers: { "user-agent": "ToraBot/1.0 (+pharmacy roster)" } });
+  const r = await fetch(url, {
+    headers: {
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+      "accept-language": "el-GR,el;q=0.9,en-US;q=0.8,en;q=0.7",
+    },
+    redirect: "follow",
+  });
   if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`);
   return r.text();
 }
